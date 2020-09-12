@@ -4,6 +4,21 @@ import (
 	"fmt"
 )
 
+type Point struct {
+	x int
+	y int
+}
+
+type Circle struct {
+	center *Point
+	redius float32
+}
+
+type CircleFlatten struct {
+	*Point
+	redius float32
+}
+
 func main() {
 	var name string
 	var age int64 = 29
@@ -133,6 +148,30 @@ func main() {
 	ioc(add)
 
 	returnFunc("maru")()
+
+	//change both so it is mutable
+	var x []int = []int{3, 4, 5}
+	//the same pointer
+	y := x
+	y[0] = 100
+
+	fmt.Println(x, y)
+	//Pointers & Derefrence Operator (& and *)
+
+	value := "hello"
+	changeString(&value)
+	fmt.Println(value, &value)
+
+	circle := Circle{&Point{y: 4, x: 9}, 3.3}
+	fmt.Println(circle.center.x, circle.center.y)
+
+	circleFlatten := CircleFlatten{&Point{6, 7}, 5.5}
+	fmt.Println(circleFlatten.x, circleFlatten.y)
+
+}
+
+func changeString(reference *string) {
+	*reference = "changed"
 }
 
 func performNumbers(x, y int) (w, z, d int) {
