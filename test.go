@@ -212,11 +212,6 @@ func main() {
 	y[0] = 100
 
 	fmt.Println(x, y)
-	//Pointers & Derefrence Operator (& and *)
-
-	value := "hello"
-	changeString(&value)
-	fmt.Println(value, &value)
 
 	circle := Circle{&Point{y: 4, x: 9}, 3.3}
 	fmt.Println(circle.center.x, circle.center.y)

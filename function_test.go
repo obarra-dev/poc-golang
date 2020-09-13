@@ -2,7 +2,7 @@ package main_test
 
 import "testing"
 
-func TestChangeString(t *testing.T) {
+func TestPointerAndDereferenceOperator(t *testing.T) {
 	completeName := "Omar"
 
 	changeString(&completeName)
