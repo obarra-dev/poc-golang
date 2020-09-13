@@ -2,7 +2,23 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
+
+func testTime() {
+	fmt.Println("When's Saturday?")
+	today := time.Now().Weekday()
+	switch time.Saturday {
+	case today + 0:
+		fmt.Println("Today.")
+	case today + 1:
+		fmt.Println("Tomorrow.")
+	case today + 2:
+		fmt.Println("In two days.")
+	default:
+		fmt.Println("Too far away.")
+	}
+}
 
 type Point struct {
 	x int
@@ -40,7 +56,20 @@ func (c *CircleFlatten) setDoubleRadius(radius float32) {
 	c.redius = radius * 2
 }
 
+var java, python, c int = 1, 2, 3
+
+var (
+	ToBe   bool   = false
+	MaxInt uint64 = 1<<64 - 1
+)
+
+const PI = 3.14
+
 func main() {
+	fmt.Printf("Type: %T Value: %v\n", ToBe, ToBe)
+	fmt.Printf("Type: %T Value: %v\n", MaxInt, MaxInt)
+	var valJava, valGolan = true, "SI!"
+	fmt.Println(java, python, c, valGolan, valJava)
 	var name string
 	var age int64 = 29
 	var gender uint8 = 0
@@ -81,6 +110,12 @@ func main() {
 		fmt.Println("Major than 14")
 	} else {
 		fmt.Println("Major than menor than 14")
+	}
+
+	if der := "golan"; der == "golan" {
+		fmt.Println("This is GOLAN")
+	} else {
+		fmt.Println("this is JAVA")
 	}
 
 	for x := 0; x <= 10; x++ {
@@ -200,6 +235,17 @@ func main() {
 		fmt.Println(shape.getDoubleRadius())
 	}
 
+	fmt.Println(PI)
+
+	testTime()
+
+	//Nil slices
+	var nilSlices []string
+	fmt.Println(nilSlices, len(nilSlices), cap(nilSlices))
+
+	if nilSlices == nil {
+		fmt.Println(nilSlices)
+	}
 }
 
 func changeString(reference *string) {
