@@ -248,10 +248,6 @@ func main() {
 	}
 }
 
-func changeString(reference *string) {
-	*reference = "changed"
-}
-
 func performNumbers(x, y int) (w, z, d int) {
 	defer fmt.Println("it is finally")
 	w = x + y
