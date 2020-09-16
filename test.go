@@ -189,22 +189,6 @@ func main() {
 	vald, okd := myMap["pear"]
 	fmt.Println(vald, okd)
 
-	added, subs, mul := performNumbers(4, 2)
-	fmt.Println(added, subs, mul)
-
-	neg := func(x int) int {
-		return x * -1
-	}
-	fmt.Println(neg(9))
-	ioc(neg)
-
-	add := func(x int) int {
-		return x + 1
-	}
-	ioc(add)
-
-	returnFunc("maru")()
-
 	//change both so it is mutable
 	var x []int = []int{3, 4, 5}
 	//the same pointer
@@ -240,24 +224,5 @@ func main() {
 
 	if nilSlices == nil {
 		fmt.Println(nilSlices)
-	}
-}
-
-func performNumbers(x, y int) (w, z, d int) {
-	defer fmt.Println("it is finally")
-	w = x + y
-	z = x - y
-	d = x * x
-	return
-}
-
-func ioc(myfunc func(int) int) {
-	fmt.Println(myfunc(4))
-}
-
-func returnFunc(word string) func() {
-	var newWord = "Hi" + word
-	return func() {
-		fmt.Println(newWord)
 	}
 }
