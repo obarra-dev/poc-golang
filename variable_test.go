@@ -2,6 +2,7 @@ package main_test
 
 import (
 	"fmt"
+	"math"
 	"testing"
 )
 
@@ -32,7 +33,7 @@ func TestVariablesWithInitializers(t *testing.T) {
 }
 
 func TestShortVariableDeclaration(t *testing.T) {
-	//implicit declaration
+	//implicit declaration, type inference
 	valJava, valGolang := true, "SI!"
 	kotlin := "yes"
 
@@ -75,9 +76,12 @@ func TestDeclareIntoBlock(t *testing.T) {
 	}
 }
 
-func TestVariablesfdfd(t *testing.T) {
-	integer := 19
-	if integer == 19 {
+func TestTypeConversions(t *testing.T) {
+	var x, y int = 3, 4
+	var f float64 = math.Sqrt(float64(x*x + y*y))
+	var z uint = uint(f)
+	fmt.Println(x, y, z, f)
+	if x == 3 && y == 4 && f == 5 && z == 5 {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error")
