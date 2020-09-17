@@ -56,35 +56,7 @@ func (c *CircleFlatten) setDoubleRadius(radius float32) {
 	c.redius = radius * 2
 }
 
-var java, python, c int = 1, 2, 3
-
-var (
-	ToBe   bool   = false
-	MaxInt uint64 = 1<<64 - 1
-)
-
-const PI = 3.14
-
 func main() {
-	fmt.Printf("Type: %T Value: %v\n", ToBe, ToBe)
-	fmt.Printf("Type: %T Value: %v\n", MaxInt, MaxInt)
-	var valJava, valGolan = true, "SI!"
-	fmt.Println(java, python, c, valGolan, valJava)
-	var name string
-	var age int64 = 29
-	var gender uint8 = 0
-	name = "omar" + " barra"
-	var price float64 = 3.3
-	//explicit
-	var programmer bool = true
-	//implicit
-	var normal = false
-	fmt.Printf("%T", normal)
-
-	nickname := "obarra"
-	fmt.Println(nickname)
-
-	fmt.Println("Hola Mundo", "in Golang", name, age, gender, price, programmer, "%T", normal)
 
 	var out = fmt.Sprintf("Number: \n \t %07d the best", 404)
 
@@ -213,8 +185,6 @@ func main() {
 	for _, shape := range shapes {
 		fmt.Println(shape.getDoubleRadius())
 	}
-
-	fmt.Println(PI)
 
 	testTime()
 
