@@ -5,6 +5,37 @@ import (
 	"time"
 )
 
+func executeRangeAndUndirection() {
+	number := make(chan int)
+	pow := make(chan int)
+
+	go generateNumbers(number)
+	go powTwo(pow, number)
+
+	showNumbers(pow)
+}
+
+func generateNumbers(out chan<- int) {
+	for x := 1; x < 6; x++ {
+		out <- x
+	}
+	close(out)
+}
+
+func powTwo(out chan<- int, in <-chan int) {
+	for x := range in {
+		out <- x * x
+	}
+	close(out)
+}
+
+func showNumbers(in <-chan int) {
+	for x := range in {
+		fmt.Println(x)
+		time.Sleep(1 * time.Second)
+	}
+}
+
 func executeChannelsExample() {
 
 	channel := make(chan string)
