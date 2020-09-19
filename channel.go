@@ -2,8 +2,30 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"time"
 )
+
+func executeChanelSelect() {
+	messages := make(chan string, 5)
+	mytimeOut := time.After(10 * time.Second)
+	for i := 0; i < 5; i++ {
+		go sendMessage(messages, i)
+	}
+
+	for {
+		select {
+		case message := <-messages:
+			fmt.Println(message)
+			//time.Sleep(1 * time.Second)
+		case <-mytimeOut:
+			fmt.Println("TIME OUT - GAME OVER")
+			time.Sleep(2 * time.Second)
+			os.Exit(0)
+		}
+
+	}
+}
 
 func executeChanelBuffered() {
 	messages := make(chan string, 5)

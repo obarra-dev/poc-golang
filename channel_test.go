@@ -13,3 +13,7 @@ func TestExecuteRangeAndUndirection(t *testing.T) {
 func TestEx(t *testing.T) {
 	executeChanelBuffered()
 }
+
+func TestExecuteChanelSelect(t *testing.T) {
+	executeChanelSelect()
+}
