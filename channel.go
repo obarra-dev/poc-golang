@@ -21,13 +21,22 @@ func echoPingServer(channel chan string) {
 	var counter int
 	for {
 		counter++
-		fmt.Println(<-channel, " ", counter)
+		value, ok := <-channel
+		if !ok {
+			break
+		}
+		fmt.Println(value, " ", counter)
 		time.Sleep(time.Second * 1)
 	}
 }
 
 func sendPingClient(channel chan string) {
+	limit := 0
 	for {
 		channel <- "ping"
+		limit++
+		if limit > 20 {
+			close(channel)
+		}
 	}
 }
