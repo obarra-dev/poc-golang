@@ -9,3 +9,7 @@ func TestExecuteChannel(t *testing.T) {
 func TestExecuteRangeAndUndirection(t *testing.T) {
 	executeRangeAndUndirection()
 }
+
+func TestEx(t *testing.T) {
+	executeChanelBuffered()
+}

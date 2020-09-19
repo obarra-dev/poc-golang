@@ -5,6 +5,31 @@ import (
 	"time"
 )
 
+func executeChanelBuffered() {
+	messages := make(chan string, 5)
+	for i := 0; i < 5; i++ {
+		go sendMessage(messages, i)
+	}
+
+	showMessage(messages)
+}
+
+func sendMessage(messages chan<- string, goRutine int) {
+	counter := 0
+	for {
+		messages <- "GR-" + fmt.Sprint(goRutine) + "You are go developer " + fmt.Sprint(counter)
+		fmt.Println("GR: ", goRutine, " - sending message number: ", counter)
+		counter++
+	}
+}
+
+func showMessage(messages <-chan string) {
+	for message := range messages {
+		fmt.Println("Got: ", message)
+		time.Sleep(1 * time.Second)
+	}
+}
+
 func executeRangeAndUndirection() {
 	number := make(chan int)
 	pow := make(chan int)
