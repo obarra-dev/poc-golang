@@ -90,13 +90,6 @@ func main() {
 		fmt.Println("this is JAVA")
 	}
 
-	for x := 0; x <= 10; x++ {
-		if x%2 == 0 {
-			continue
-		}
-		fmt.Println(x)
-	}
-
 	environment := "test"
 	switch {
 	case environment == "test", environment == "dev":
