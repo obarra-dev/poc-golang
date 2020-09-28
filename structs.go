@@ -1,17 +1,27 @@
 package main
 
 import (
-	"fmt"
+	"math"
 )
+
+type Language string
+
+func (l Language) GetName() string {
+	return "name: " + string(l)
+}
 
 type Point struct {
 	x int
 	y int
 }
 
-type shape interface {
-	getDoubleRadius() float32
-	setDoubleRadius(redius float32)
+func (p Point) Abs() float64 {
+	return math.Sqrt(float64(p.x*p.x + p.y*p.y))
+}
+
+func (p *Point) Scale(f int) {
+	p.x = p.x * f
+	p.y = p.y * f
 }
 
 type Circle struct {
@@ -24,12 +34,25 @@ type CircleFlatten struct {
 	redius float32
 }
 
+type shape interface {
+	getDoubleRadius() float32
+	setDoubleRadius(redius float32)
+	hasImplementation() bool
+}
+
 func (c Circle) getDoubleRadius() float32 {
 	return c.redius * 2
 }
 
 func (c *Circle) setDoubleRadius(radius float32) {
 	c.redius = radius * 2
+}
+
+func (c *Circle) hasImplementation() bool {
+	if c == nil {
+		return false
+	}
+	return true
 }
 
 func (c CircleFlatten) getDoubleRadius() float32 {
@@ -40,23 +63,11 @@ func (c *CircleFlatten) setDoubleRadius(radius float32) {
 	c.redius = radius * 2
 }
 
-func xmain() {
-
-	circle := Circle{&Point{y: 4, x: 9}, 3.3}
-	fmt.Println(circle.center.x, circle.center.y)
-
-	circleFlatten := CircleFlatten{&Point{6, 7}, 5.5}
-	fmt.Println(circleFlatten.x, circleFlatten.y)
-
-	fmt.Println("first", circle.getDoubleRadius())
-
-	circle.setDoubleRadius(7)
-	fmt.Println(circle.getDoubleRadius())
-
-	shapes := []shape{&circle, &circleFlatten}
-
-	for _, shape := range shapes {
-		fmt.Println(shape.getDoubleRadius())
+func (c *CircleFlatten) hasImplementation() bool {
+	if c == nil {
+		return false
 	}
-
+	return true
 }
+
+type emptyInterface interface{}
