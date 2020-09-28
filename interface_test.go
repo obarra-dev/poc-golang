@@ -66,6 +66,40 @@ func TestEmptyInterfaceInt(t *testing.T) {
 	}
 }
 
+func TestInterfaceTypeAssertion(t *testing.T) {
+	var i interface{} = "barra"
+
+	value, ok := i.(string)
+
+	if ok == true && value == "barra" {
+		t.Log("test ok")
+	} else {
+		t.Error("test Error", value, ok)
+		t.Fail()
+	}
+}
+
+func TestInterfaceTypeAssertionSwitch(t *testing.T) {
+	var i interface{} = "barra"
+
+	typo := ""
+	switch i.(type) {
+	case int:
+		typo = "int"
+	case string:
+		typo = "string"
+	default:
+		typo = "no type"
+	}
+
+	if typo == "string" {
+		t.Log("test ok")
+	} else {
+		t.Error("test Error", typo)
+		t.Fail()
+	}
+}
+
 func describeemptyInterface(emptyInterface emptyInterface) (string, string) {
 	fmt.Printf("(%v, %T)\n", emptyInterface, emptyInterface)
 	var value = fmt.Sprintf("%v", emptyInterface)
