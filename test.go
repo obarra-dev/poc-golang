@@ -20,42 +20,6 @@ func testTime() {
 	}
 }
 
-type Point struct {
-	x int
-	y int
-}
-
-type shape interface {
-	getDoubleRadius() float32
-	setDoubleRadius(redius float32)
-}
-
-type Circle struct {
-	center *Point
-	redius float32
-}
-
-type CircleFlatten struct {
-	*Point
-	redius float32
-}
-
-func (c Circle) getDoubleRadius() float32 {
-	return c.redius * 2
-}
-
-func (c *Circle) setDoubleRadius(radius float32) {
-	c.redius = radius * 2
-}
-
-func (c CircleFlatten) getDoubleRadius() float32 {
-	return c.redius * 2
-}
-
-func (c *CircleFlatten) setDoubleRadius(radius float32) {
-	c.redius = radius * 2
-}
-
 func main() {
 
 	var out = fmt.Sprintf("Number: \n \t %07d the best", 404)
@@ -74,93 +38,6 @@ func main() {
 
 	isTrue := (false || true) && !false && 10-5 == 5
 	fmt.Printf("%T", isTrue)
-
-	var herAge = 29
-	if herAge >= 29 {
-		fmt.Println("Major than 29")
-	} else if herAge >= 14 {
-		fmt.Println("Major than 14")
-	} else {
-		fmt.Println("Major than menor than 14")
-	}
-
-	if der := "golan"; der == "golan" {
-		fmt.Println("This is GOLAN")
-	} else {
-		fmt.Println("this is JAVA")
-	}
-
-	environment := "test"
-	switch {
-	case environment == "test", environment == "dev":
-		fmt.Println("no prod")
-	case environment == "prod":
-		fmt.Println("prod")
-	default:
-		fmt.Println("no case")
-	}
-
-	switch environment {
-	case "test", "dev":
-		fmt.Println("no prod")
-	case "prod":
-		fmt.Println("prod")
-	default:
-		fmt.Println("no case")
-	}
-
-	arr := [3]int{1, 2, 3}
-	for d := 0; d < len(arr); d++ {
-		fmt.Println(arr[d])
-	}
-
-	arr2D := [3][2]int{{1, 2}, {4, 3}, {5, 6}}
-	for d := 0; d < len(arr2D); d++ {
-		fmt.Println(arr2D[d])
-	}
-
-	arraWithOutLimit := []int{3, 4}
-	arraWithOutLimit = append(arraWithOutLimit, 10, 12, 13)
-
-	slice := arraWithOutLimit[2:4]
-	fmt.Println(slice)
-	fmt.Println(cap(slice))
-	fmt.Println(len(slice))
-
-	maked := make([]int, 5)
-	fmt.Printf("%T", maked)
-	fmt.Println(maked)
-
-	for i, element := range arr {
-		fmt.Println(i, element)
-	}
-
-	for _, element := range arr {
-		fmt.Println(element)
-	}
-
-	myMap := map[string]int{
-		"apple":  5,
-		"orange": 3,
-		"pear":   1,
-	}
-
-	fmt.Println(myMap)
-	fmt.Println(myMap["pear"])
-	myMap["pear"] = 10
-	val, ok := myMap["pear"]
-	fmt.Println(val, ok)
-	delete(myMap, "pear")
-	vald, okd := myMap["pear"]
-	fmt.Println(vald, okd)
-
-	//change both so it is mutable
-	var x []int = []int{3, 4, 5}
-	//the same pointer
-	y := x
-	y[0] = 100
-
-	fmt.Println(x, y)
 
 	circle := Circle{&Point{y: 4, x: 9}, 3.3}
 	fmt.Println(circle.center.x, circle.center.y)
@@ -181,11 +58,4 @@ func main() {
 
 	testTime()
 
-	//Nil slices
-	var nilSlices []string
-	fmt.Println(nilSlices, len(nilSlices), cap(nilSlices))
-
-	if nilSlices == nil {
-		fmt.Println(nilSlices)
-	}
 }

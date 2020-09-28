@@ -55,7 +55,7 @@ func TestFunctionIOC(t *testing.T) {
 		}
 		return x
 	}
-	var negativeValue = ioc(deny)
+	var negativeValue = functionWithFunctionArgument(deny)
 
 	adder := func(x int) int {
 		if x < 0 {
@@ -63,7 +63,7 @@ func TestFunctionIOC(t *testing.T) {
 		}
 		return x
 	}
-	var positiveValue = ioc(adder)
+	var positiveValue = functionWithFunctionArgument(adder)
 
 	if positiveValue == 4 && negativeValue == -4 {
 		t.Log("test ok")
@@ -73,8 +73,10 @@ func TestFunctionIOC(t *testing.T) {
 	}
 }
 
+//Function closures
 func TestFunctionReturnFunction(t *testing.T) {
-	var result = returnFunction("Maru")()
+	var concater = concat("Maru")
+	var result = concater(" :)")
 	fmt.Println(result)
 	if result == "Hi Maru :)" {
 		t.Log("test ok")
@@ -92,13 +94,13 @@ func performNumbers(x, y int) (w, z, d int) {
 	return
 }
 
-func ioc(myfunc func(int) int) int {
+func functionWithFunctionArgument(myfunc func(int) int) int {
 	return myfunc(4)
 }
 
-func returnFunction(word string) func() string {
+func concat(word string) func(string) string {
 	var newWord = "Hi " + word
-	return func() string {
-		return newWord + " :)"
+	return func(icond string) string {
+		return newWord + icond
 	}
 }
