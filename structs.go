@@ -70,4 +70,25 @@ func (c *CircleFlatten) hasImplementation() bool {
 	return true
 }
 
+//todos los tipos implementan la interfaz vacia
 type emptyInterface interface{}
+
+type ComplexStruct struct {
+	name      string
+	age       int
+	nick      *string
+	addresses []string
+	phones    map[string]string
+}
+
+func (c *ComplexStruct) createCopy() ComplexStruct {
+	nick := *c.nick
+	addresses := make([]string, len(c.addresses), len(c.addresses))
+	copy(addresses, c.addresses)
+
+	phones := make(map[string]string)
+	for k, v := range c.phones {
+		phones[k] = v
+	}
+	return ComplexStruct{c.name, c.age, &nick, addresses, phones}
+}
