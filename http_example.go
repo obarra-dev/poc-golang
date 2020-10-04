@@ -9,11 +9,13 @@ import (
 	"time"
 )
 
-type myHandler struct {
-	message string
+type Message struct {
+	Name string
+	Body string
+	Time int64
 }
 
-func (h *myHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *Message) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	body, _ := json.Marshal(*h)
 	w.Write(body)
@@ -28,8 +30,7 @@ func main() {
 
 	mux.HandleFunc("/handleFunction", handleFunction)
 
-	myHanlder := &myHandler{"Hi World with handler"}
-
+	myHanlder := &Message{"Maru", "Hello", 1294706395881547000}
 	mux.Handle("/handle", myHanlder)
 
 	server := &http.Server{

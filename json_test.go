@@ -17,6 +17,20 @@ func TestJsonMarshal(t *testing.T) {
 	}
 }
 
+//por defecto toma la key es igual a nombre del atributo, y esta debe estar comenzar en mayuscula.
+//para cambiar usar json:"atribute_name"
+func TestJsonMarshalString(t *testing.T) {
+	m := myHandler{"omar"}
+	b, _ := json.Marshal(m)
+
+	if string(b) == `{"message":"omar"}` {
+		t.Log("OK")
+	} else {
+		t.Error("Error", string(b))
+		t.Fail()
+	}
+}
+
 func TestJsonUnMarshal(t *testing.T) {
 	b := []byte(`{"Name":"Maru","Body":"Hello","Time":1294706395881547000}`)
 
@@ -31,8 +45,6 @@ func TestJsonUnMarshal(t *testing.T) {
 	}
 }
 
-type Message struct {
-	Name string
-	Body string
-	Time int64
+type myHandler struct {
+	Message string `json:"message"`
 }
