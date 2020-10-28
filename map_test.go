@@ -17,7 +17,6 @@ func TestMapGetSimple(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -27,7 +26,6 @@ func TestMapPut(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -37,7 +35,6 @@ func TestMapUpdate(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -52,6 +49,5 @@ func TestMapDelete(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }

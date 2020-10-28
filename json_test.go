@@ -13,7 +13,6 @@ func TestJsonMarshal(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", string(b))
-		t.Fail()
 	}
 }
 
@@ -27,7 +26,6 @@ func TestJsonMarshalString(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", string(b))
-		t.Fail()
 	}
 }
 
@@ -41,7 +39,6 @@ func TestJsonUnMarshal(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 

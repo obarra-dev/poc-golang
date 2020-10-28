@@ -9,11 +9,11 @@ func TestInterfaceValueAndType(t *testing.T) {
 	circle := &Circle{&Point{y: 4, x: 9}, 3.3}
 	value, myType := describe(circle)
 
-	if value == "&{0xc0000122d0 3.3}" && myType == "*main.Circle" {
+	//in this case value is a string with pointer value of this interface
+	if value != "" && myType == "*main.Circle" {
 		t.Log("test ok")
 	} else {
-		t.Error("test Error")
-		t.Fail()
+		t.Error("test Error", value, myType)
 	}
 }
 
@@ -28,7 +28,6 @@ func TestInterfaceValueWithNil(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error")
-		t.Fail()
 	}
 }
 
@@ -40,29 +39,26 @@ func TestNilInterfaceValue(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error")
-		t.Fail()
 	}
 }
 
 func TestEmptyInterfaceString(t *testing.T) {
-	value, myType := describeemptyInterface("hello")
+	value, myType := describeEmptyInterface("hello")
 
 	if value == "hello" && myType == "string" {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error", value, myType)
-		t.Fail()
 	}
 }
 
 func TestEmptyInterfaceInt(t *testing.T) {
-	value, myType := describeemptyInterface(404)
+	value, myType := describeEmptyInterface(404)
 
 	if value == "404" && myType == "int" {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error", value, myType)
-		t.Fail()
 	}
 }
 
@@ -75,7 +71,6 @@ func TestInterfaceTypeAssertion(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error", value, ok)
-		t.Fail()
 	}
 }
 
@@ -96,11 +91,10 @@ func TestInterfaceTypeAssertionSwitch(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error", typo)
-		t.Fail()
 	}
 }
 
-func describeemptyInterface(emptyInterface emptyInterface) (string, string) {
+func describeEmptyInterface(emptyInterface emptyInterface) (string, string) {
 	fmt.Printf("(%v, %T)\n", emptyInterface, emptyInterface)
 	var value = fmt.Sprintf("%v", emptyInterface)
 	fmt.Println(value)

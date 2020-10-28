@@ -12,7 +12,6 @@ func TestStructEqualForSimpleType(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -21,7 +20,6 @@ func TestStructNotEqualForComplexType(t *testing.T) {
 	otherCircle := Circle{&Point{y: 4, x: 9}, 3.3}
 	if circle == otherCircle {
 		t.Error("Error")
-		t.Fail()
 	} else {
 		t.Log("OK")
 	}
@@ -40,7 +38,6 @@ func TestStructPointerAndCopy(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -54,7 +51,6 @@ func TestStructLiteral(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -66,18 +62,16 @@ func TestStructSimple(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
 func TestStructFlatten(t *testing.T) {
 	circle := CircleFlatten{&Point{4, 9}, 3.3}
 	circle.x = 10
-	if circle.x == 10 && circle.y == 4 &&
+	if circle.x == 10 && circle.y == 9 &&
 		circle.redius == 3.3 {
 		t.Log("OK")
 	} else {
-		t.Error("Error")
-		t.Fail()
+		t.Error("Error", circle.x, circle.y)
 	}
 }

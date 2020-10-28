@@ -12,11 +12,10 @@ func TestPolymorphism(t *testing.T) {
 	for _, shape := range shapes {
 		shape.setDoubleRadius(2.0)
 		result := shape.getDoubleRadius()
-		if result == 4.0 {
+		if result == 8.0 {
 			t.Log("test ok")
 		} else {
-			t.Error("test Error")
-			t.Fail()
+			t.Error("test Error", result)
 		}
 	}
 }

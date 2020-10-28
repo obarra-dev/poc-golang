@@ -7,11 +7,10 @@ import (
 func TestMethodInCustomTypeSimple(t *testing.T) {
 	language := Language("java")
 
-	if name := language.GetName(); name == "java" {
+	if name := language.GetName(); name == "name: java" {
 		t.Log("OK")
 	} else {
 		t.Error("Error", name)
-		t.Fail()
 	}
 }
 
@@ -22,7 +21,6 @@ func TestMethodAbs(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", pow)
-		t.Fail()
 	}
 }
 
@@ -36,7 +34,6 @@ func TestMethodScale(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", point)
-		t.Fail()
 	}
 }
 
@@ -48,6 +45,5 @@ func TestMethodIndirectionValues(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", point)
-		t.Fail()
 	}
 }

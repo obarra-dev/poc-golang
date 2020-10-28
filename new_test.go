@@ -12,6 +12,5 @@ func TestNew(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }

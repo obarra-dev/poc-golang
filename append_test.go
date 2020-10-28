@@ -11,7 +11,6 @@ func TestAppendSimple(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", len(arraWithOutLimit), cap(arraWithOutLimit))
-		t.Fail()
 	}
 }
 
@@ -22,6 +21,5 @@ func TestAppend(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", len(arraWithOutLimit), cap(arraWithOutLimit))
-		t.Fail()
 	}
 }

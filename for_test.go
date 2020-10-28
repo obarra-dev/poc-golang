@@ -9,13 +9,13 @@ import (
 func TestForInitAndPostStatementsOptional(t *testing.T) {
 	var counter int
 	for counter <= 10 {
-		counter += counter
+		fmt.Println(counter)
+		counter += 1
 	}
-	if counter == 9 {
+	if counter == 11 {
 		t.Log("OK")
 	} else {
-		t.Error("Error")
-		t.Fail()
+		t.Error("Error", counter)
 	}
 }
 
@@ -31,7 +31,6 @@ func TestForForever(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -50,7 +49,6 @@ func TestForWithContinue(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -69,6 +67,5 @@ func TestForWithBreak(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }

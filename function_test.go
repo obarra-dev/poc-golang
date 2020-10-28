@@ -14,7 +14,6 @@ func TestPointerAndDereferenceOperator(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error")
-		t.Fail()
 	}
 }
 
@@ -29,7 +28,6 @@ func TestFunctionParametersShareATypeAndReturnThreeValuesAndTheReturnValuesAreNa
 		t.Log("test ok")
 	} else {
 		t.Error("test error")
-		t.Fail()
 	}
 }
 
@@ -44,7 +42,6 @@ func TestFunctionAnonimus(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test error")
-		t.Fail()
 	}
 }
 
@@ -69,7 +66,6 @@ func TestFunctionIOC(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test error")
-		t.Fail()
 	}
 }
 
@@ -82,7 +78,6 @@ func TestFunctionReturnFunction(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test error")
-		t.Fail()
 	}
 }
 

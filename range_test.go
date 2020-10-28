@@ -14,7 +14,6 @@ func TestRangeWithIndexValue(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", total)
-		t.Fail()
 	}
 }
 
@@ -30,8 +29,6 @@ func TestRangeWithValue(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", total)
-		t.Fail()
-
 	}
 }
 
@@ -47,8 +44,6 @@ func TestRangeWithIndex(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", total)
-		t.Fail()
-
 	}
 }
 
@@ -64,7 +59,5 @@ func TestRangeWithOnlyIndex(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", total)
-		t.Fail()
-
 	}
 }

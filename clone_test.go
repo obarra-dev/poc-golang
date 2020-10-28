@@ -11,7 +11,6 @@ func TestCloneSimple(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -23,7 +22,6 @@ func TestCloneSimpleWhenChangeXvalue(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -41,7 +39,6 @@ func TestCloneComplex(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", otherComplex)
-		t.Fail()
 	}
 }
 
@@ -59,6 +56,5 @@ func TestCloneComplexWithCreatCopy(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", otherComplex)
-		t.Fail()
 	}
 }

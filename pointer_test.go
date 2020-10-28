@@ -14,7 +14,6 @@ func TestPointerTo(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -27,7 +26,6 @@ func TestPointerEqual(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -38,7 +36,6 @@ func TestPointerZeroValye(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -49,6 +46,5 @@ func TestPointerNewWithType(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }

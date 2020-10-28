@@ -10,7 +10,6 @@ func TestMake(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", len(maked), cap(maked))
-		t.Fail()
 	}
 }
 
@@ -20,7 +19,6 @@ func TestMakeCapAndLengDiff(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", len(maked), cap(maked))
-		t.Fail()
 	}
 }
 
@@ -31,6 +29,5 @@ func TestMakeMap(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", len(maked))
-		t.Fail()
 	}
 }

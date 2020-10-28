@@ -1,7 +1,6 @@
 package main_test
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -10,14 +9,11 @@ func TestIfWithShortStatement(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 
 	if der := "golang"; der == "java" {
 		t.Error("Error")
-		t.Fail()
 	} else {
-		fmt.Print(der)
 		t.Log("OK")
 	}
 }
@@ -25,7 +21,7 @@ func TestIfWithShortStatement(t *testing.T) {
 func TestIf(t *testing.T) {
 	var message string
 	var herAge = 29
-	if herAge >= 29 {
+	if herAge > 29 {
 		message = "Major than 29"
 	} else if herAge == 29 {
 		message = "Equal 29"
@@ -36,8 +32,6 @@ func TestIf(t *testing.T) {
 	if message == "Equal 29" {
 		t.Log("OK")
 	} else {
-		t.Error("Error")
-		t.Fail()
+		t.Error("Error", message)
 	}
-
 }

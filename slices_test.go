@@ -21,7 +21,6 @@ func TestSlicesAreaReferencesToArrays(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", len(slice))
-		t.Fail()
 	}
 }
 
@@ -33,7 +32,6 @@ func TestSlicesCapAndLen(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", len(slice), cap(slice))
-		t.Fail()
 	}
 }
 
@@ -43,7 +41,6 @@ func TestSlicesCapAndLenNew(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", len(arraWithOutLimit), cap(arraWithOutLimit))
-		t.Fail()
 	}
 }
 
@@ -55,7 +52,6 @@ func TestSlicesLiteral(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", len(slice), cap(slice))
-		t.Fail()
 	}
 }
 
@@ -83,6 +79,5 @@ func TestSliceNil(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error", len(nilSlices), cap(nilSlices))
-		t.Fail()
 	}
 }

@@ -15,7 +15,6 @@ func TestDeclareAListOfVariableShareType(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error")
-		t.Fail()
 	}
 }
 
@@ -28,7 +27,6 @@ func TestVariablesWithInitializers(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error")
-		t.Fail()
 	}
 }
 
@@ -41,7 +39,6 @@ func TestShortVariableDeclaration(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error")
-		t.Fail()
 	}
 }
 
@@ -57,7 +54,6 @@ func TestTypesAndZeroValue(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error")
-		t.Fail()
 	}
 }
 
@@ -72,7 +68,6 @@ func TestDeclareIntoBlock(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error")
-		t.Fail()
 	}
 }
 
@@ -85,7 +80,6 @@ func TestTypeConversions(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error")
-		t.Fail()
 	}
 }
 
@@ -97,6 +91,5 @@ func TestConst(t *testing.T) {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error")
-		t.Fail()
 	}
 }

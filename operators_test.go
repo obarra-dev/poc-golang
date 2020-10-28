@@ -11,7 +11,6 @@ func TestLogicalOperator(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
-		t.Fail()
 	}
 }
 
@@ -30,6 +29,5 @@ func TestArithmeticOperator(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error,", resultFloat, resultInt)
-		t.Fail()
 	}
 }
