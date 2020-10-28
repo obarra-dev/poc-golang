@@ -7,8 +7,6 @@ import (
 	"log"
 	"net/http"
 	"time"
-
-	"github.com/obarra/go115/components"
 )
 
 type Message struct {
@@ -29,7 +27,8 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/handleFunc", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "<h1>"+components.Languge+"</h1>",
+		h1 := "<h1>" + "GO" + "</h1>"
+		fmt.Fprintf(w, h1,
 			"<h2>"+html.EscapeString(r.URL.Path)+"</h2>")
 	})
 

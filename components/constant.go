@@ -1,5 +1,5 @@
 package components
 
 const (
-	Languge = "Golang 1.15"
+	Language = "Golang 1.15"
 )
