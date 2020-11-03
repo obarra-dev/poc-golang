@@ -6,6 +6,7 @@ import (
 	"html"
 	"log"
 	"net/http"
+	"poc-golang/go-115/components"
 	"time"
 )
 
@@ -27,7 +28,7 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/handleFunc", func(w http.ResponseWriter, r *http.Request) {
-		h1 := "<h1>" + "GO" + "</h1>"
+		h1 := "<h1>" + components.Language + "</h1>"
 		fmt.Fprintf(w, h1,
 			"<h2>"+html.EscapeString(r.URL.Path)+"</h2>")
 	})
