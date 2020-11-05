@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 
 	"poc-golang/payment-service/webservices/middleware"
 )
@@ -51,8 +52,16 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer file.Close()
-	f, err := os.OpenFile(filepath.Join(CBUUploadPath, handler.Filename), os.O_WRONLY|os.O_CREATE, 0666)
+	fileName := time.Now().Format("2006-01-02") + handler.Filename
+	fileName = filepath.Join(CBUUploadPath, fileName)
+	log.Println(fileName)
+	f, err := os.OpenFile(fileName, os.O_WRONLY|os.O_CREATE, 0666)
 	defer f.Close()
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	io.Copy(f, file)
 	w.WriteHeader(http.StatusCreated)
 }
@@ -64,6 +73,7 @@ func handleDownload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fileName := urlPathSegments[1:][0]
+	log.Println(fileName)
 	file, err := os.Open(filepath.Join(CBUUploadPath, fileName))
 	defer file.Close()
 	if err != nil {
@@ -85,7 +95,6 @@ func handleDownload(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Length", fSize)
 	file.Seek(0, 0)
 	io.Copy(w, file)
-
 }
 
 // SetupRoutes :
