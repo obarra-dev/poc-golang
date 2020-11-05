@@ -83,11 +83,21 @@ func TestTypeConversions(t *testing.T) {
 	}
 }
 
-func TestConst(t *testing.T) {
+func TestConstDouble(t *testing.T) {
 	const PI = 3.14
 	//can not assign
 	//PI = 3.5
 	if PI == 3.14 {
+		t.Log("test ok")
+	} else {
+		t.Error("test Error")
+	}
+}
+
+func TestConstString(t *testing.T) {
+	const PI = "3.14"
+
+	if PI == "3.14" {
 		t.Log("test ok")
 	} else {
 		t.Error("test Error")
