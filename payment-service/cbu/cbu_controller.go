@@ -11,13 +11,13 @@ import (
 	"strconv"
 	"strings"
 
-	"poc-golang/payment-service/webservices/cors"
+	"poc-golang/payment-service/webservices/middleware"
 )
 
-const receiptPath = "receipts"
+const cbusPath = "cbus"
 
-func handleReceipts(w http.ResponseWriter, r *http.Request) {
-	log.Println("test-sdsds")
+func handleCBUs(w http.ResponseWriter, r *http.Request) {
+	log.Println("invoking cbus")
 	switch r.Method {
 	case http.MethodGet:
 		receiptList, err := GetCBUFileInfo()
@@ -34,18 +34,7 @@ func handleReceipts(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}
 	case http.MethodPost:
-		r.ParseMultipartForm(5 << 20)
-		file, handler, err := r.FormFile("receipt")
-		if err != nil {
-			log.Print(err)
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-		defer file.Close()
-		f, err := os.OpenFile(filepath.Join(CBUUploadPath, handler.Filename), os.O_WRONLY|os.O_CREATE, 0666)
-		defer f.Close()
-		io.Copy(f, file)
-		w.WriteHeader(http.StatusCreated)
+		uploadFile(w, r)
 	case http.MethodOptions:
 		return
 	default:
@@ -53,8 +42,23 @@ func handleReceipts(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func uploadFile(w http.ResponseWriter, r *http.Request) {
+	r.ParseMultipartForm(5 << 20)
+	file, handler, err := r.FormFile("cbuFile")
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	defer file.Close()
+	f, err := os.OpenFile(filepath.Join(CBUUploadPath, handler.Filename), os.O_WRONLY|os.O_CREATE, 0666)
+	defer f.Close()
+	io.Copy(f, file)
+	w.WriteHeader(http.StatusCreated)
+}
+
 func handleDownload(w http.ResponseWriter, r *http.Request) {
-	urlPathSegments := strings.Split(r.URL.Path, fmt.Sprintf("%s/", receiptPath))
+	urlPathSegments := strings.Split(r.URL.Path, fmt.Sprintf("%s/", cbusPath))
 	if len(urlPathSegments[1:]) > 1 {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -86,9 +90,8 @@ func handleDownload(w http.ResponseWriter, r *http.Request) {
 
 // SetupRoutes :
 func SetupRoutes(apiBasePath string) {
-	recieptHandler := http.HandlerFunc(handleReceipts)
+	cbuHandler := http.HandlerFunc(handleCBUs)
 	downloadHandler := http.HandlerFunc(handleDownload)
-	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, receiptPath), cors.Middleware(recieptHandler))
-	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, receiptPath), cors.Middleware(downloadHandler))
-
+	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, cbusPath), middleware.Middleware(cbuHandler))
+	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, cbusPath), middleware.Middleware(downloadHandler))
 }
