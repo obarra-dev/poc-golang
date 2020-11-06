@@ -13,7 +13,7 @@ import (
 func getProduct(productID int) (*Product, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	row := database.DbConn.QueryRowContext(ctx, `SELECT 
+	row := database.PoolConnDB.QueryRowContext(ctx, `SELECT 
 	productId, 
 	manufacturer, 
 	sku, 
@@ -46,7 +46,7 @@ func getProduct(productID int) (*Product, error) {
 func GetTopTenProducts() ([]Product, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	results, err := database.DbConn.QueryContext(ctx, `SELECT 
+	results, err := database.PoolConnDB.QueryContext(ctx, `SELECT 
 	productId, 
 	manufacturer, 
 	sku, 
@@ -80,7 +80,7 @@ func GetTopTenProducts() ([]Product, error) {
 func removeProduct(productID int) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	_, err := database.DbConn.ExecContext(ctx, `DELETE FROM products where productId = ?`, productID)
+	_, err := database.PoolConnDB.ExecContext(ctx, `DELETE FROM products where productId = ?`, productID)
 	if err != nil {
 		log.Println(err.Error())
 		return err
@@ -90,8 +90,10 @@ func removeProduct(productID int) error {
 
 func getProductList() ([]Product, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	log.Println(database.PoolConnDB)
+
 	defer cancel()
-	results, err := database.DbConn.QueryContext(ctx, `SELECT 
+	results, err := database.PoolConnDB.QueryContext(ctx, `SELECT 
 	productId, 
 	manufacturer, 
 	sku, 
@@ -100,11 +102,15 @@ func getProductList() ([]Product, error) {
 	quantityOnHand, 
 	productName 
 	FROM products`)
+
 	if err != nil {
+		log.Println("error for query ex")
+
 		log.Println(err.Error())
 		return nil, err
 	}
 	defer results.Close()
+
 	products := make([]Product, 0)
 	for results.Next() {
 		var product Product
@@ -128,7 +134,7 @@ func updateProduct(product Product) error {
 	if product.ProductID == nil || *product.ProductID == 0 {
 		return errors.New("product has invalid ID")
 	}
-	_, err := database.DbConn.ExecContext(ctx, `UPDATE products SET 
+	_, err := database.PoolConnDB.ExecContext(ctx, `UPDATE products SET 
 		manufacturer=?, 
 		sku=?, 
 		upc=?, 
@@ -153,7 +159,7 @@ func updateProduct(product Product) error {
 func insertProduct(product Product) (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	result, err := database.DbConn.ExecContext(ctx, `INSERT INTO products  
+	result, err := database.PoolConnDB.ExecContext(ctx, `INSERT INTO products  
 	(manufacturer, 
 	sku, 
 	upc, 

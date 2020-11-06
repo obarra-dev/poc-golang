@@ -8,17 +8,19 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var DbConn *sql.DB
+// Database connection pool.
+var PoolConnDB *sql.DB
 
 // SetupDatabase
 func SetupDatabase() {
 	var err error
-	DbConn, err = sql.Open("sqlite3", "./paymentdb.db")
+	PoolConnDB, err = sql.Open("sqlite3", "./paymentdb.db")
 	if err != nil {
-		log.Println("TEST TESTSETE")
-		log.Fatal(err)
+		log.Fatal("Unable to use data source name", err)
 	}
-	DbConn.SetMaxOpenConns(3)
-	DbConn.SetMaxIdleConns(3)
-	DbConn.SetConnMaxLifetime(60 * time.Second)
+	PoolConnDB.SetConnMaxLifetime(60 * time.Second)
+	PoolConnDB.SetMaxIdleConns(3)
+	PoolConnDB.SetMaxOpenConns(3)
+
+	log.Println("Pool DB created")
 }
