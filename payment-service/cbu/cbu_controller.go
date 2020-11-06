@@ -73,7 +73,7 @@ func handleDownload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fileName := urlPathSegments[1:][0]
-	log.Println(fileName)
+	log.Println(urlPathSegments)
 	file, err := os.Open(filepath.Join(CBUUploadPath, fileName))
 	defer file.Close()
 	if err != nil {
