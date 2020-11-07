@@ -10,7 +10,7 @@ import (
 	"poc-golang/payment-service/webservices/database"
 )
 
-func getProduct(productID int) (*Product, error) {
+func getOneProduct(productID int) (*Product, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	row := database.PoolConnDB.QueryRowContext(ctx, `SELECT 
@@ -41,6 +41,43 @@ func getProduct(productID int) (*Product, error) {
 		return nil, err
 	}
 	return product, nil
+}
+
+func getProductList() ([]Product, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	log.Println(database.PoolConnDB)
+
+	defer cancel()
+	results, err := database.PoolConnDB.QueryContext(ctx, `SELECT 
+	productId, 
+	manufacturer, 
+	sku, 
+	upc, 
+	pricePerUnit, 
+	quantityOnHand, 
+	productName 
+	FROM products`)
+
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	defer results.Close()
+
+	products := make([]Product, 0)
+	for results.Next() {
+		var product Product
+		results.Scan(&product.ProductID,
+			&product.Manufacturer,
+			&product.Sku,
+			&product.Upc,
+			&product.PricePerUnit,
+			&product.QuantityOnHand,
+			&product.ProductName)
+
+		products = append(products, product)
+	}
+	return products, nil
 }
 
 func GetTopTenProducts() ([]Product, error) {
@@ -86,45 +123,6 @@ func removeProduct(productID int) error {
 		return err
 	}
 	return nil
-}
-
-func getProductList() ([]Product, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
-	log.Println(database.PoolConnDB)
-
-	defer cancel()
-	results, err := database.PoolConnDB.QueryContext(ctx, `SELECT 
-	productId, 
-	manufacturer, 
-	sku, 
-	upc, 
-	pricePerUnit, 
-	quantityOnHand, 
-	productName 
-	FROM products`)
-
-	if err != nil {
-		log.Println("error for query ex")
-
-		log.Println(err.Error())
-		return nil, err
-	}
-	defer results.Close()
-
-	products := make([]Product, 0)
-	for results.Next() {
-		var product Product
-		results.Scan(&product.ProductID,
-			&product.Manufacturer,
-			&product.Sku,
-			&product.Upc,
-			&product.PricePerUnit,
-			&product.QuantityOnHand,
-			&product.ProductName)
-
-		products = append(products, product)
-	}
-	return products, nil
 }
 
 func updateProduct(product Product) error {

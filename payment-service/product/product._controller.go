@@ -16,40 +16,48 @@ const productsPath = "products"
 func handleProducts(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		productList, err := getProductList()
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		j, err := json.Marshal(productList)
-		if err != nil {
-			log.Fatal(err)
-		}
-		_, err = w.Write(j)
-		if err != nil {
-			log.Fatal(err)
-		}
+		getAll(w, r)
 	case http.MethodPost:
-		var product Product
-		err := json.NewDecoder(r.Body).Decode(&product)
-		if err != nil {
-			log.Print(err)
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-		productID, err := insertProduct(product)
-		if err != nil {
-			log.Print(err)
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-		w.WriteHeader(http.StatusCreated)
-		w.Write([]byte(fmt.Sprintf(`{"productId":%d}`, productID)))
+		save(w, r)
 	case http.MethodOptions:
 		return
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
+}
+
+func getAll(w http.ResponseWriter, r *http.Request) {
+	productList, err := getProductList()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	j, err := json.Marshal(productList)
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = w.Write(j)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func save(w http.ResponseWriter, r *http.Request) {
+	var product Product
+	err := json.NewDecoder(r.Body).Decode(&product)
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	productID, err := insertProduct(product)
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte(fmt.Sprintf(`{"productId":%d}`, productID)))
 }
 
 func handleProduct(w http.ResponseWriter, r *http.Request) {
@@ -66,7 +74,7 @@ func handleProduct(w http.ResponseWriter, r *http.Request) {
 	}
 	switch r.Method {
 	case http.MethodGet:
-		product, err := getProduct(productID)
+		product, err := getOneProduct(productID)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
