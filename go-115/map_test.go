@@ -12,8 +12,24 @@ var myMap = map[string]int{
 }
 
 //arrays cannot be resized.
-func TestMapGetSimple(t *testing.T) {
+func TestMapGet(t *testing.T) {
 	if myMap["java"] == 1 {
+		t.Log("OK")
+	} else {
+		t.Error("Error")
+	}
+}
+
+func TestMapGetWithExistingFlag(t *testing.T) {
+	if value, ok := myMap["java"]; ok {
+		t.Log(value)
+	} else {
+		t.Error("Error", ok)
+	}
+}
+
+func TestMapWhenKeyDoesNotExist(t *testing.T) {
+	if myMap["kotlin"] == 0 {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
@@ -49,5 +65,13 @@ func TestMapDelete(t *testing.T) {
 		t.Log("OK")
 	} else {
 		t.Error("Error")
+	}
+}
+
+func TestMapIteration(t *testing.T) {
+	for key, value := range myMap {
+		if value == 0 {
+			t.Error("Error: ", key, value)
+		}
 	}
 }
