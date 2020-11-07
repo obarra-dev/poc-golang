@@ -14,6 +14,7 @@ import (
 const productsPath = "products"
 
 func handleProducts(w http.ResponseWriter, r *http.Request) {
+	log.Println("Product ALL")
 	switch r.Method {
 	case http.MethodGet:
 		getAll(w, r)
@@ -34,11 +35,57 @@ func getAll(w http.ResponseWriter, r *http.Request) {
 	}
 	j, err := json.Marshal(productList)
 	if err != nil {
-		log.Fatal(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	//w.WriteHeader(http.StatusOK)
+	_, err = w.Write(j)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+}
+
+func getRequestParm(path string) (int, error) {
+	urlPathSegments := strings.Split(path, fmt.Sprintf("%s/", productsPath))
+	if len(urlPathSegments[1:]) > 1 {
+		return 0, fmt.Errorf("%s", "ORROR")
+	}
+	productID, err := strconv.Atoi(urlPathSegments[len(urlPathSegments)-1])
+	if err != nil {
+		log.Print(err)
+		return 0, fmt.Errorf("%s", "ORROR")
+	}
+
+	return productID, nil
+}
+
+func getOne(w http.ResponseWriter, r *http.Request) {
+	productID, err := getRequestParm(r.URL.Path)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	product, err := getOneProduct(productID)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	if product == nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	j, err := json.Marshal(product)
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	_, err = w.Write(j)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 }
 
@@ -61,39 +108,14 @@ func save(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleProduct(w http.ResponseWriter, r *http.Request) {
-	urlPathSegments := strings.Split(r.URL.Path, fmt.Sprintf("%s/", productsPath))
-	if len(urlPathSegments[1:]) > 1 {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-	productID, err := strconv.Atoi(urlPathSegments[len(urlPathSegments)-1])
+	productID, err := getRequestParm(r.URL.Path)
 	if err != nil {
-		log.Print(err)
-		w.WriteHeader(http.StatusNotFound)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	switch r.Method {
 	case http.MethodGet:
-		product, err := getOneProduct(productID)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		if product == nil {
-			w.WriteHeader(http.StatusNotFound)
-			return
-		}
-		j, err := json.Marshal(product)
-		if err != nil {
-			log.Print(err)
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-		_, err = w.Write(j)
-		if err != nil {
-			log.Fatal(err)
-		}
-
+		getOne(w, r)
 	case http.MethodPut:
 		var product Product
 		err := json.NewDecoder(r.Body).Decode(&product)
@@ -130,8 +152,8 @@ func handleProduct(w http.ResponseWriter, r *http.Request) {
 // SetupRoutes :
 func SetupRoutes(apiBasePath string) {
 	productsHandler := http.HandlerFunc(handleProducts)
-	productHandler := http.HandlerFunc(handleProduct)
 	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, productsPath), middleware.Middleware(productsHandler))
-	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, productsPath), middleware.Middleware(productHandler))
 
+	productHandler := http.HandlerFunc(handleProduct)
+	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, productsPath), middleware.Middleware(productHandler))
 }
