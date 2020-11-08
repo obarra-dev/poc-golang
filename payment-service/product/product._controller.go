@@ -23,7 +23,6 @@ func SetupRoutes(apiBasePath string) {
 }
 
 func handleProducts(w http.ResponseWriter, r *http.Request) {
-	log.Println("Product ALL")
 	switch r.Method {
 	case http.MethodGet:
 		getAll(w, r)
@@ -72,13 +71,14 @@ func getAll(w http.ResponseWriter, r *http.Request) {
 
 func getRequestParm(path string) (int, error) {
 	urlPathSegments := strings.Split(path, fmt.Sprintf("%s/", productsPath))
+
 	if len(urlPathSegments[1:]) > 1 {
-		return 0, fmt.Errorf("%s", "ORROR")
+		return 0, fmt.Errorf("%s", "Many possible ids")
 	}
 	productID, err := strconv.Atoi(urlPathSegments[len(urlPathSegments)-1])
 	if err != nil {
 		log.Print(err)
-		return 0, fmt.Errorf("%s", "ORROR")
+		return 0, fmt.Errorf("%s", "ID can not be parse.")
 	}
 
 	return productID, nil

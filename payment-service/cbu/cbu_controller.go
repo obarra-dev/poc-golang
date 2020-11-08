@@ -17,6 +17,14 @@ import (
 
 const cbusPath = "cbus"
 
+// SetupRoutes :
+func SetupRoutes(apiBasePath string) {
+	cbuHandler := http.HandlerFunc(handleCBUs)
+	downloadHandler := http.HandlerFunc(handleDownload)
+	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, cbusPath), middleware.Middleware(cbuHandler))
+	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, cbusPath), middleware.Middleware(downloadHandler))
+}
+
 func handleCBUs(w http.ResponseWriter, r *http.Request) {
 	log.Println("invoking cbus")
 	switch r.Method {
@@ -95,12 +103,4 @@ func handleDownload(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Length", fSize)
 	file.Seek(0, 0)
 	io.Copy(w, file)
-}
-
-// SetupRoutes :
-func SetupRoutes(apiBasePath string) {
-	cbuHandler := http.HandlerFunc(handleCBUs)
-	downloadHandler := http.HandlerFunc(handleDownload)
-	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, cbusPath), middleware.Middleware(cbuHandler))
-	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, cbusPath), middleware.Middleware(downloadHandler))
 }

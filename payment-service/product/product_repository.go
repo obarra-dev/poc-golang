@@ -22,7 +22,7 @@ func getOneProduct(productID int) (*Product, error) {
 	quantityOnHand, 
 	productName 
 	FROM products 
-	WHERE productId = ?`, productID)
+	WHERE productId = :id`, sql.Named("id", productID))
 
 	product := &Product{}
 	err := row.Scan(
@@ -75,6 +75,10 @@ func getProductList() ([]Product, error) {
 			&product.QuantityOnHand,
 			&product.ProductName)
 
+		if err != nil {
+			log.Println(err.Error())
+			return nil, err
+		}
 		products = append(products, product)
 	}
 	return products, nil
@@ -109,6 +113,11 @@ func GetTopTenProducts() ([]Product, error) {
 			&product.QuantityOnHand,
 			&product.ProductName)
 
+		if err != nil {
+			log.Println(err.Error())
+			return nil, err
+		}
+
 		products = append(products, product)
 	}
 	return products, nil
@@ -117,7 +126,7 @@ func GetTopTenProducts() ([]Product, error) {
 func removeProduct(productID int) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	_, err := database.PoolConnDB.ExecContext(ctx, `DELETE FROM products where productId = ?`, productID)
+	_, err := database.PoolConnDB.ExecContext(ctx, `DELETE FROM products where productId = :id`, sql.Named("id", productID))
 	if err != nil {
 		log.Println(err.Error())
 		return err
