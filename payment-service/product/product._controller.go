@@ -13,6 +13,15 @@ import (
 
 const productsPath = "products"
 
+// SetupRoutes :
+func SetupRoutes(apiBasePath string) {
+	productsHandler := http.HandlerFunc(handleProducts)
+	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, productsPath), middleware.Middleware(productsHandler))
+
+	productHandler := http.HandlerFunc(handleProduct)
+	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, productsPath), middleware.Middleware(productHandler))
+}
+
 func handleProducts(w http.ResponseWriter, r *http.Request) {
 	log.Println("Product ALL")
 	switch r.Method {
@@ -20,6 +29,21 @@ func handleProducts(w http.ResponseWriter, r *http.Request) {
 		getAll(w, r)
 	case http.MethodPost:
 		save(w, r)
+	case http.MethodOptions:
+		return
+	default:
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+}
+
+func handleProduct(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		getOne(w, r)
+	case http.MethodPut:
+		update(w, r)
+	case http.MethodDelete:
+		delete(w, r)
 	case http.MethodOptions:
 		return
 	default:
@@ -107,53 +131,45 @@ func save(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(fmt.Sprintf(`{"productId":%d}`, productID)))
 }
 
-func handleProduct(w http.ResponseWriter, r *http.Request) {
+func update(w http.ResponseWriter, r *http.Request) {
 	productID, err := getRequestParm(r.URL.Path)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	switch r.Method {
-	case http.MethodGet:
-		getOne(w, r)
-	case http.MethodPut:
-		var product Product
-		err := json.NewDecoder(r.Body).Decode(&product)
-		if err != nil {
-			log.Print(err)
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-		if *product.ProductID != productID {
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-		err = updateProduct(product)
-		if err != nil {
-			log.Print(err)
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-	case http.MethodDelete:
-		err := removeProduct(productID)
-		if err != nil {
-			log.Print(err)
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
 
-	case http.MethodOptions:
+	var product Product
+	err = json.NewDecoder(r.Body).Decode(&product)
+	if err != nil || product.ProductID == nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusBadRequest)
 		return
-	default:
-		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
+	if *product.ProductID != productID {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	err = updateProduct(product)
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
 }
 
-// SetupRoutes :
-func SetupRoutes(apiBasePath string) {
-	productsHandler := http.HandlerFunc(handleProducts)
-	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, productsPath), middleware.Middleware(productsHandler))
+func delete(w http.ResponseWriter, r *http.Request) {
+	productID, err := getRequestParm(r.URL.Path)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
-	productHandler := http.HandlerFunc(handleProduct)
-	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, productsPath), middleware.Middleware(productHandler))
+	err = removeProduct(productID)
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
 }
