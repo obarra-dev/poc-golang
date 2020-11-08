@@ -27,3 +27,16 @@ func TestStringStrconv(t *testing.T) {
 		t.Error("Error", number)
 	}
 }
+
+func TestStringBuilder(t *testing.T) {
+	var builder strings.Builder
+	builder.WriteString("First")
+	builder.WriteString("Second")
+	result := builder.String()
+
+	if result == "FirstSecond" {
+		t.Log("OK")
+	} else {
+		t.Error("Error", result)
+	}
+}
