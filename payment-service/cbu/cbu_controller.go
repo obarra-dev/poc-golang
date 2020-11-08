@@ -63,14 +63,18 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	fileName := time.Now().Format("2006-01-02") + handler.Filename
 	fileName = filepath.Join(CBUUploadPath, fileName)
 	log.Println(fileName)
-	f, err := os.OpenFile(fileName, os.O_WRONLY|os.O_CREATE, 0666)
-	defer f.Close()
+	dst, err := os.OpenFile(fileName, os.O_WRONLY|os.O_CREATE, 0666)
+	defer dst.Close()
 	if err != nil {
 		log.Print(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	io.Copy(f, file)
+
+	if _, err := io.Copy(dst, file); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	w.WriteHeader(http.StatusCreated)
 }
 
