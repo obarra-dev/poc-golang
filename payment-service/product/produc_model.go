@@ -10,3 +10,9 @@ type Product struct {
 	QuantityOnHand int    `json:"quantityOnHand"`
 	ProductName    string `json:"productName"`
 }
+
+type ProductReportFilter struct {
+	NameFilter         string `json:"productName"`
+	ManufacturerFilter string `json:"manufacturer"`
+	SKUFilter          string `json:"sku"`
+}

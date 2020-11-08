@@ -20,6 +20,9 @@ func SetupRoutes(apiBasePath string) {
 
 	productHandler := http.HandlerFunc(handleProduct)
 	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, productsPath), middleware.Middleware(productHandler))
+
+	productReportHandler := http.HandlerFunc(handleProductReport)
+	http.Handle(fmt.Sprintf("%s/%s/reports", apiBasePath, productsPath), middleware.Middleware(productReportHandler))
 }
 
 func handleProducts(w http.ResponseWriter, r *http.Request) {
@@ -43,6 +46,39 @@ func handleProduct(w http.ResponseWriter, r *http.Request) {
 		update(w, r)
 	case http.MethodDelete:
 		delete(w, r)
+	case http.MethodOptions:
+		return
+	default:
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+}
+
+func handleProductReport(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		var filter ProductReportFilter
+		err := json.NewDecoder(r.Body).Decode(&filter)
+		if err != nil {
+			log.Print(err)
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		productList, err := searchByFilter(filter)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		j, err := json.Marshal(productList)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		//w.WriteHeader(http.StatusOK)
+		_, err = w.Write(j)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 	case http.MethodOptions:
 		return
 	default:
