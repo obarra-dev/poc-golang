@@ -63,7 +63,7 @@ func handleProductReport(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		productList, err := searchByFilter(filter)
+		productList, err := SearchByFilter(filter)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return

@@ -153,7 +153,7 @@ func insertProduct(product Product) (int, error) {
 	return int(insertID), nil
 }
 
-func searchByFilter(productFilter ProductReportFilter) ([]Product, error) {
+func SearchByFilter(productFilter ProductReportFilter) ([]Product, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
