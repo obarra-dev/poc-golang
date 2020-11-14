@@ -6,3 +6,6 @@ socket.addEventListener("message", function (e){console.log(e);});
 socket.addEventListener('open', function (event) {
     socket.send('Hello Server!');
 });
+
+
+socket.send('{"data":"omar barra","type":"name"}')
