@@ -69,3 +69,52 @@ func TestForWithBreak(t *testing.T) {
 		t.Error("Error")
 	}
 }
+
+func TestForWithBreakAndWithOutLebel(t *testing.T) {
+	var firstCounter int
+	var secondCounter int
+	for z := 0; z <= 10; z++ {
+		for x := 0; x <= 10; x++ {
+			if x%2 == 0 {
+				break
+			}
+
+			firstCounter += x
+		}
+
+		secondCounter += z
+	}
+
+	fmt.Print(secondCounter)
+	if firstCounter == 0 && secondCounter == 55 {
+		t.Log("OK")
+	} else {
+		t.Error("Error", secondCounter)
+	}
+}
+
+//break with label  terminates other outer (enclosing) loops
+func TestForWithBreakAndWithLebel(t *testing.T) {
+	var firstCounter int
+	var secondCounter int
+OuterLoop:
+	for z := 0; z <= 10; z++ {
+		fmt.Println("der")
+		for x := 0; x <= 10; x++ {
+			if x%2 == 0 {
+				break OuterLoop
+			}
+
+			firstCounter += x
+		}
+
+		secondCounter += z
+	}
+
+	fmt.Print(secondCounter)
+	if firstCounter == 2 && secondCounter == 0 {
+		t.Log("OK")
+	} else {
+		t.Error("Error")
+	}
+}
