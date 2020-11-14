@@ -60,3 +60,28 @@ func TestSwitchWithNoCondition(t *testing.T) {
 		t.Error("Error")
 	}
 }
+
+//To execute another case blocks, we use fallthrough statement.
+func TestSwitchWithNoConditionFallThrough(t *testing.T) {
+	environment := "production"
+	result := "empty"
+	switch {
+	case environment == "test", environment == "dev":
+		result = "no prod"
+	case 5 > len(environment):
+		result = result + "no prod"
+	case environment == "production":
+		result = "prod"
+		fallthrough
+	case 5 < len(environment):
+		result = result + "prod"
+	default:
+		result = "no case"
+	}
+
+	if result == "prodprod" {
+		t.Log("OK")
+	} else {
+		t.Error("Error", result)
+	}
+}
