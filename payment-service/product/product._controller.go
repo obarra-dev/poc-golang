@@ -87,7 +87,7 @@ func handleProductReport(w http.ResponseWriter, r *http.Request) {
 }
 
 func getAll(w http.ResponseWriter, r *http.Request) {
-	productList, err := getProductList()
+	productList, err := GetProductList()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

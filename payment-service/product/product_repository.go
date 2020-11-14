@@ -44,7 +44,7 @@ func getOneProduct(productID int) (*Product, error) {
 	return product, nil
 }
 
-func getProductList() ([]Product, error) {
+func GetProductList() ([]Product, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	log.Println(database.PoolConnDB)
 
