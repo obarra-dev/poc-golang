@@ -99,9 +99,8 @@ func TestForWithBreakAndWithLebel(t *testing.T) {
 	var secondCounter int
 OuterLoop:
 	for z := 0; z <= 10; z++ {
-		fmt.Println("der")
 		for x := 0; x <= 10; x++ {
-			if x%2 == 0 {
+			if x == 3 {
 				break OuterLoop
 			}
 
@@ -111,10 +110,7 @@ OuterLoop:
 		secondCounter += z
 	}
 
-	fmt.Print(secondCounter)
-	if firstCounter == 2 && secondCounter == 0 {
-		t.Log("OK")
-	} else {
-		t.Error("Error")
+	if firstCounter != 2 && secondCounter != 0 {
+		t.Error("Error", firstCounter, secondCounter)
 	}
 }
