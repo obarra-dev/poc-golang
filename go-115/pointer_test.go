@@ -10,9 +10,7 @@ func TestPointerTo(t *testing.T) {
 	pointerToName = &name
 	otherPointerToName := &name
 
-	if *pointerToName == "omar" && *otherPointerToName == "omar" {
-		t.Log("OK")
-	} else {
+	if *pointerToName != "omar" || *otherPointerToName != "omar" {
 		t.Error("Error")
 	}
 }
@@ -22,29 +20,22 @@ func TestPointerEqual(t *testing.T) {
 	var pointerToName *string
 	pointerToName = &name
 
-	if pointerToName == &name {
-		t.Log("OK")
-	} else {
+	if pointerToName != &name {
 		t.Error("Error")
 	}
 }
 
-func TestPointerZeroValye(t *testing.T) {
+func TestPointerZeroValue(t *testing.T) {
 	var pointerToName *string
-
-	if pointerToName == nil {
-		t.Log("OK")
-	} else {
+	if pointerToName != nil {
 		t.Error("Error")
 	}
 }
 
+//new can be used to allocate values
 func TestPointerNewWithType(t *testing.T) {
 	pointerToName := new(string)
-
-	if *pointerToName == "" {
-		t.Log("OK")
-	} else {
-		t.Error("Error")
+	if *pointerToName != "" {
+		t.Error("Error", pointerToName, *pointerToName)
 	}
 }

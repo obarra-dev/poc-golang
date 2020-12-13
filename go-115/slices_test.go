@@ -17,40 +17,28 @@ func TestSlicesAreaReferencesToArrays(t *testing.T) {
 	//index 0 of slice is index 2 array
 	slice[0] = 6
 
-	if total == 3 && arr[2] == 6 {
-		t.Log("OK")
-	} else {
-		t.Error("Error", len(slice))
+	if total != 3 || slice[0] != arr[2] || arr[2] != 6 {
+		t.Error("Error", len(slice), slice)
 	}
 }
 
+//A Slice has both a length and a capacity
+// The length of a slice is the number of elements it contains.
+// The capacity of a slice is the number of elements in the underlying array, counting from the first element in the slice.
 func TestSlicesCapAndLen(t *testing.T) {
 	arr := [4]int{8, 6, 3, 4}
 	slice := arr[2:3]
 
-	if len(slice) == 1 && cap(slice) == 2 {
-		t.Log("OK")
-	} else {
+	if len(slice) != 1 || cap(slice) != 2 {
 		t.Error("Error", len(slice), cap(slice))
 	}
 }
 
-func TestSlicesCapAndLenNew(t *testing.T) {
-	arraWithOutLimit := []int{3, 4}
-	if len(arraWithOutLimit) == 2 && cap(arraWithOutLimit) == 2 {
-		t.Log("OK")
-	} else {
-		t.Error("Error", len(arraWithOutLimit), cap(arraWithOutLimit))
-	}
-}
-
 //A slice literal is like an array literal without the length.
-func TestSlicesLiteral(t *testing.T) {
+func TestSlicesCapAndLenWhenAreEqual(t *testing.T) {
 	slice := []int{8, 6, 3, 4}
 
-	if len(slice) == 4 && cap(slice) == 4 {
-		t.Log("OK")
-	} else {
+	if len(slice) != 4 || cap(slice) != 4 {
 		t.Error("Error", len(slice), cap(slice))
 	}
 }
@@ -75,9 +63,7 @@ func TestSliceNil(t *testing.T) {
 	var nilSlices []string
 	fmt.Println(nilSlices, len(nilSlices), cap(nilSlices))
 
-	if nilSlices == nil && len(nilSlices) == 0 && cap(nilSlices) == 0 {
-		t.Log("OK")
-	} else {
+	if nilSlices != nil || len(nilSlices) != 0 || cap(nilSlices) != 0 {
 		t.Error("Error", len(nilSlices), cap(nilSlices))
 	}
 }
