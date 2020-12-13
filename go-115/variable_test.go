@@ -7,7 +7,7 @@ import (
 )
 
 func TestDeclareAListOfVariableShareType(t *testing.T) {
-	//explicit declaration
+	//explicit declaration = var declaration
 	var c, python bool
 	c = true
 	python = false
@@ -18,6 +18,7 @@ func TestDeclareAListOfVariableShareType(t *testing.T) {
 	}
 }
 
+// global scope
 var java, golang int = 1, 2
 
 func TestVariablesWithInitializers(t *testing.T) {
@@ -31,7 +32,7 @@ func TestVariablesWithInitializers(t *testing.T) {
 }
 
 func TestShortVariableDeclaration(t *testing.T) {
-	//implicit declaration, type inference
+	//implicit declaration = short declartion, type inference
 	valJava, valGolang := true, "SI!"
 	kotlin := "yes"
 

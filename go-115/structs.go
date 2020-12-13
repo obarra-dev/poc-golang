@@ -40,10 +40,13 @@ type shape interface {
 	hasImplementation() bool
 }
 
+//this function receive a Circle, so recive function == methods
+//value reciever  operates on a copy of the original  value.
 func (c Circle) getDoubleRadius() float32 {
 	return c.redius * 2
 }
 
+//Methods with pointer receivers can modify the value to which the receiver points
 func (c *Circle) setDoubleRadius(radius float32) {
 	c.redius = radius * 2
 }

@@ -5,6 +5,8 @@ import (
 	"testing"
 )
 
+// * dereference pointer operator
+
 func TestPointerAndDereferenceOperator(t *testing.T) {
 	completeName := "Omar"
 
@@ -81,6 +83,25 @@ func TestFunctionReturnFunction(t *testing.T) {
 	}
 }
 
+func TestFunctionType(t *testing.T) {
+	result := squareSum(1)(1)(1)
+	if result != 3 {
+		t.Error("Error", result)
+	}
+}
+
+type firstFunctionType func(int) int
+type secondFunctionType func(int) firstFunctionType
+
+func squareSum(x int) secondFunctionType {
+	return func(y int) firstFunctionType {
+		return func(z int) int {
+			return x*x + y*y + z*z
+		}
+	}
+}
+
+//Named Return Values
 func performNumbers(x, y int) (w, z, d int) {
 	defer fmt.Println("it is finally")
 	w = x + y

@@ -40,3 +40,19 @@ func TestStringBuilder(t *testing.T) {
 		t.Error("Error", result)
 	}
 }
+
+func TestIntToString(t *testing.T) {
+	result := strconv.Itoa(404)
+	if result != "404" {
+		t.Error("Error", result)
+	}
+}
+
+func TestStringsJoin(t *testing.T) {
+	array := [3]string{"a", "b", "c"}
+	result := strings.Join(array[:], ",")
+
+	if result != "a,b,c" {
+		t.Error("Error", result)
+	}
+}

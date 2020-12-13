@@ -4,13 +4,14 @@ import (
 	"testing"
 )
 
+//Go supports equality checking structs.
 func TestCloneSimple(t *testing.T) {
 	point := Point{y: 4, x: 9}
+
+	// make a copy of the value, so ponter is other
 	otherPoint := point
-	if point == otherPoint {
-		t.Log("OK")
-	} else {
-		t.Error("Error")
+	if point != otherPoint || &point == &otherPoint {
+		t.Error("Error", &point, &otherPoint)
 	}
 }
 
@@ -18,10 +19,8 @@ func TestCloneSimpleWhenChangeXvalue(t *testing.T) {
 	point := Point{y: 4, x: 9}
 	otherPoint := point
 	otherPoint.x = 10
-	if point != otherPoint && point.x == 9 && otherPoint.x == 10 {
-		t.Log("OK")
-	} else {
-		t.Error("Error")
+	if point == otherPoint || point.x != 9 || otherPoint.x != 10 {
+		t.Error("Error", &point, &otherPoint)
 	}
 }
 
