@@ -46,16 +46,15 @@ func TestMapPut(t *testing.T) {
 }
 
 func TestMapUpdate(t *testing.T) {
+	oldValue := myMap["java"]
 	myMap["java"] = 10
-	if myMap["java"] == 10 {
-		t.Log("OK")
-	} else {
-		t.Error("Error")
+	if oldValue != 1 || myMap["java"] != 10 {
+		t.Error("Error", oldValue, myMap["java"])
 	}
 }
 
-//if key does not exist, it does return nil
-//If key is not in the map, then elem is the zero value for the map's element type.
+//if key does not exist, it does return nil??
+//If key is not in the map, then elemt is the zero value for the map's element type.
 func TestMapDelete(t *testing.T) {
 	delete(myMap, "js")
 	val, ok := myMap["js"]

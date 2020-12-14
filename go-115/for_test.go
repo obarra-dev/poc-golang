@@ -19,6 +19,7 @@ func TestForInitAndPostStatementsOptional(t *testing.T) {
 	}
 }
 
+//Is as While
 func TestForForever(t *testing.T) {
 	var counter int
 	for {

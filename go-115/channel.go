@@ -7,18 +7,18 @@ import (
 )
 
 func executeChanelSelect() {
-	messages := make(chan string, 5)
-	mytimeOut := time.After(10 * time.Second)
+	messageChan := make(chan string, 5)
+	mytimeOutChan := time.After(10 * time.Second)
 	for i := 0; i < 5; i++ {
-		go sendMessage(messages, i)
+		go sendMessage(messageChan, i)
 	}
 
 	for {
 		select {
-		case message := <-messages:
+		case message := <-messageChan:
 			fmt.Println(message)
 			//time.Sleep(1 * time.Second)
-		case <-mytimeOut:
+		case <-mytimeOutChan:
 			fmt.Println("TIME OUT - GAME OVER")
 			time.Sleep(2 * time.Second)
 			os.Exit(0)
@@ -36,10 +36,10 @@ func executeChanelBuffered() {
 	showMessage(messages)
 }
 
-func sendMessage(messages chan<- string, goRutine int) {
+func sendMessage(messageChan chan<- string, goRutine int) {
 	counter := 0
 	for {
-		messages <- "GR-" + fmt.Sprint(goRutine) + "You are go developer " + fmt.Sprint(counter)
+		messageChan <- "GR-" + fmt.Sprint(goRutine) + "You are go developer " + fmt.Sprint(counter)
 		fmt.Println("GR: ", goRutine, " - sending message number: ", counter)
 		counter++
 	}
