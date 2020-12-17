@@ -4,6 +4,9 @@ import (
 	"testing"
 )
 
+// Arrays are values, assigning one array to another copies all the elements
+// If you pass an array to a function, it will receive a copy of the array, not a pointer to it
+// The size of an array is part of its type. The types [10] int and [20] int are distinct
 //arrays cannot be resized.
 func TestArraysDeclareVariable(t *testing.T) {
 	var arr [3]int
