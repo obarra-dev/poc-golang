@@ -2,6 +2,7 @@ package main
 
 import (
 	"sort"
+	"strings"
 	"testing"
 )
 
@@ -68,5 +69,26 @@ func findMissingNumber(numbers []int, leng int) int {
 	}
 
 	return sumTotal
+}
 
+func TestFindMissingNumberds8(t *testing.T) {
+	result := reverseSenteces("omar barra")
+
+	if result != "barra omar" {
+		t.Error("Error", result)
+	}
+}
+
+func reverseSenteces(phrase string) string {
+	sentences := strings.Split(phrase, " ")
+	var sb strings.Builder
+
+	for i := len(sentences) - 1; i >= 0; i-- {
+		sb.WriteString(sentences[i])
+		if i != 0 {
+			sb.WriteString(" ")
+		}
+	}
+
+	return sb.String()
 }
