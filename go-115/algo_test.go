@@ -1,6 +1,7 @@
 package main
 
 import (
+	"reflect"
 	"sort"
 	"strings"
 	"testing"
@@ -91,4 +92,72 @@ func reverseSenteces(phrase string) string {
 	}
 
 	return sb.String()
+}
+
+func TestMergeWithMap(t *testing.T) {
+	first := []int{1, 2, 4, 5}
+	second := []int{3, 5, 8, 12, 15}
+
+	merge := mergeOrderSliceWithMap(first, second)
+
+	if !reflect.DeepEqual(merge, []int{1, 2, 3, 4, 5, 8, 12, 15}) {
+		t.Error("Error", merge)
+	}
+}
+
+func mergeOrderSliceWithMap(first []int, second []int) []int {
+	merge := make(map[int]bool)
+	for _, v := range first {
+		merge[v] = true
+	}
+
+	for _, v := range second {
+		merge[v] = true
+	}
+
+	mergeOrdered := []int{}
+	for k := range merge {
+		mergeOrdered = append(mergeOrdered, k)
+	}
+	sort.Ints(mergeOrdered)
+
+	return mergeOrdered
+}
+
+func TestMerge(t *testing.T) {
+	first := []int{1, 2, 4, 5}
+	second := []int{3, 5, 8, 12, 15}
+
+	merge := mergeOrderSlice(first, second)
+
+	if !reflect.DeepEqual(merge, []int{1, 2, 3, 4, 5, 8, 12, 15}) {
+		t.Error("Error", merge)
+	}
+}
+
+func mergeOrderSlice(first []int, second []int) []int {
+	merge := make([]int, 0)
+	var i, j int
+	for i < len(first) && i < len(second) {
+		if first[i] < second[j] {
+			merge = append(merge, first[i])
+			i++
+		} else if first[i] > second[j] {
+			merge = append(merge, second[j])
+			j++
+		} else {
+			merge = append(merge, second[j])
+			i++
+			j++
+		}
+	}
+
+	for ; i < len(first); i++ {
+		merge = append(merge, first[i])
+	}
+
+	for ; j < len(second); j++ {
+		merge = append(merge, second[j])
+	}
+	return merge
 }
