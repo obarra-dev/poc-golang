@@ -120,7 +120,7 @@ func TestStringBuilderFormat(t *testing.T) {
 func TestStringMultiLine(t *testing.T) {
 	result :=
 		`First line
-		Second line`
+Second line`
 
 	expected :=
 		"First line\n" +
@@ -135,7 +135,7 @@ func TestAscii(t *testing.T) {
 	result := string('o')
 	//results := string(11)
 
-	if result != "os" {
+	if result != "o" {
 		t.Error("Error", result)
 	}
 }
@@ -143,7 +143,7 @@ func TestAscii(t *testing.T) {
 //both byte and rune are essentially integers
 //byte is aliases for unit8
 //rune is aliases for int32
-func TestBtyeVsRune(t *testing.T) {
+func TestByteVsRune(t *testing.T) {
 	letterO := 'o'
 	var letterM byte = 'm'
 	var letterA rune = 'a'
