@@ -35,7 +35,10 @@ func TestPointerZeroValue(t *testing.T) {
 //new can be used to allocate values
 func TestPointerNewWithType(t *testing.T) {
 	pointerToName := new(string)
-	if *pointerToName != "" {
+
+	//pointerToName != "" compilation error
+	if *pointerToName != ""  {
 		t.Error("Error", pointerToName, *pointerToName)
 	}
 }
+

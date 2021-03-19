@@ -2,7 +2,18 @@ package main_test
 
 import (
 	"testing"
+	"fmt"
 )
+
+// The zero value of an uninitialized array is pre-filled with the zero value of the arrays declared elemen
+func TestArrayZeroValue(t *testing.T) {
+	var zeroArray [2]string
+	fmt.Println(zeroArray, len(zeroArray), cap(zeroArray))
+
+	if zeroArray != [2]string{"", ""} || len(zeroArray) != 2 || cap(zeroArray) != 2 {
+		t.Error("Error", len(zeroArray), cap(zeroArray))
+	}
+}
 
 // Arrays are values, assigning one array to another copies all the elements
 // If you pass an array to a function, it will receive a copy of the array, not a pointer to it

@@ -59,11 +59,13 @@ func TestSlicesDefaultValue(t *testing.T) {
 	fmt.Println(otherComplete)
 }
 
-func TestSliceNil(t *testing.T) {
-	var nilSlices []string
-	fmt.Println(nilSlices, len(nilSlices), cap(nilSlices))
+// The zero value of an uninitialized slice is the reference value of nil
+func TestSliceZeroValue(t *testing.T) {
+	var zeroSlice []string
+	fmt.Println(zeroSlice, len(zeroSlice), cap(zeroSlice))
 
-	if nilSlices != nil || len(nilSlices) != 0 || cap(nilSlices) != 0 {
-		t.Error("Error", len(nilSlices), cap(nilSlices))
+	if zeroSlice != nil || len(zeroSlice) != 0 || cap(zeroSlice) != 0 {
+		t.Error("Error", len(zeroSlice), cap(zeroSlice))
 	}
 }
+
