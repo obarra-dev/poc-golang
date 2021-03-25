@@ -20,6 +20,13 @@ func TestStringSplit(t *testing.T) {
 	}
 }
 
+func TestStringSPrintf(t *testing.T) {
+	result := fmt.Sprintf("%+8d", 97)
+	if result != "     +97" {
+		t.Error("Error:", result)
+	}
+}
+
 //Atoi is equivalent to ParseInt(s, 10, 0)
 func TestStringStrconv(t *testing.T) {
 	number, _ := strconv.Atoi("998")
