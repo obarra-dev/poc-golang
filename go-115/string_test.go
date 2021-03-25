@@ -20,9 +20,10 @@ func TestStringSplit(t *testing.T) {
 	}
 }
 
+// you can not concat string with number, der = "test" + 40 is compile error
 func TestStringSPrintf(t *testing.T) {
-	result := fmt.Sprintf("%+8d", 97)
-	if result != "     +97" {
+	result := fmt.Sprintf("%s%+8d", "test", 40)
+	if result != "test     +40" {
 		t.Error("Error:", result)
 	}
 }
