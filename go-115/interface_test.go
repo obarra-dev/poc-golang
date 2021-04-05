@@ -74,11 +74,18 @@ func TestInterfaceTypeAssertion(t *testing.T) {
 	}
 }
 
+//Type switch
 func TestInterfaceTypeAssertionSwitch(t *testing.T) {
 	var i interface{} = "barra"
 
 	typo := ""
 	switch i.(type) {
+	case bool:
+		typo = "bool"
+	case *bool:
+		typo = "*bool"
+	case *int:
+		typo = "*int"
 	case int:
 		typo = "int"
 	case string:
@@ -87,9 +94,7 @@ func TestInterfaceTypeAssertionSwitch(t *testing.T) {
 		typo = "no type"
 	}
 
-	if typo == "string" {
-		t.Log("test ok")
-	} else {
+	if typo != "string" {
 		t.Error("test Error", typo)
 	}
 }
