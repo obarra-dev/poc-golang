@@ -16,13 +16,12 @@ func TestSwitch(t *testing.T) {
 		result = "no case"
 	}
 
-	if result == "no prod" {
-		t.Log("OK")
-	} else {
+	if result != "no prod" {
 		t.Error("Error")
 	}
 }
 
+// if and switch accept an optional initialization statement
 func TestSwitchWithShortStatement(t *testing.T) {
 	result := ""
 	switch environment := "test"; environment {
@@ -34,9 +33,7 @@ func TestSwitchWithShortStatement(t *testing.T) {
 		result = "no case"
 	}
 
-	if result == "no prod" {
-		t.Log("OK")
-	} else {
+	if result != "no prod" {
 		t.Error("Error")
 	}
 }
@@ -54,9 +51,7 @@ func TestSwitchWithNoCondition(t *testing.T) {
 		result = "no case"
 	}
 
-	if result == "no prod" {
-		t.Log("OK")
-	} else {
+	if result != "no prod" {
 		t.Error("Error")
 	}
 }
@@ -79,9 +74,7 @@ func TestSwitchWithNoConditionFallThrough(t *testing.T) {
 		result = "no case"
 	}
 
-	if result == "prodprod" {
-		t.Log("OK")
-	} else {
+	if result != "prodprod" {
 		t.Error("Error", result)
 	}
 }
