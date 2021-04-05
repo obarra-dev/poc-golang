@@ -6,10 +6,9 @@ import (
 
 //if and switch accept an optional initialization statement
 func TestIfWithShortStatement(t *testing.T) {
-	if der := "golang"; der != "golang" 
+	if der := "golang"; der != "golang" {
 		t.Error("Error")
-	
-
+	}
 	if der := "golang"; der != "java" {
 		t.Log("OK")
 	}
