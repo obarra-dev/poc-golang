@@ -13,26 +13,20 @@ var myMap = map[string]int{
 
 //arrays cannot be resized.
 func TestMapGet(t *testing.T) {
-	if myMap["java"] == 1 {
-		t.Log("OK")
-	} else {
+	if myMap["java"] != 1 {
 		t.Error("Error")
 	}
 }
 
 func TestMapGetWithExistingFlag(t *testing.T) {
-	if value, ok := myMap["java"]; ok {
-		t.Log(value)
-	} else {
-		t.Error("Error", ok)
+	if value, ok := myMap["java"]; !ok && value != 1 {
+		t.Error("Error", ok, value)
 	}
 }
 
 func TestMapWhenKeyDoesNotExist(t *testing.T) {
-	if myMap["kotlin"] == 0 {
-		t.Log("OK")
-	} else {
-		t.Error("Error")
+	if myMap["kotlin"] != 0 {
+		t.Error("Error", myMap["kotlin"])
 	}
 }
 
