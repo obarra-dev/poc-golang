@@ -24,6 +24,11 @@ func (p *Point) Scale(f int) {
 	p.y = p.y * f
 }
 
+type ShapeInterface interface {
+	Abs() float64
+	Scale(f int)
+}
+
 type Circle struct {
 	center *Point
 	redius float32

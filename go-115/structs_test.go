@@ -8,9 +8,7 @@ import (
 func TestStructEqualForSimpleType(t *testing.T) {
 	point := Point{y: 4, x: 9}
 	otherPoint := Point{y: 4, x: 9}
-	if point == otherPoint {
-		t.Log("OK")
-	} else {
+	if point != otherPoint {
 		t.Error("Error")
 	}
 }
@@ -20,8 +18,6 @@ func TestStructNotEqualForComplexType(t *testing.T) {
 	otherCircle := Circle{&Point{y: 4, x: 9}, 3.3}
 	if circle == otherCircle {
 		t.Error("Error")
-	} else {
-		t.Log("OK")
 	}
 }
 

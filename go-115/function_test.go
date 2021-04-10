@@ -6,15 +6,12 @@ import (
 )
 
 // * dereference pointer operator
-
 func TestPointerAndDereferenceOperator(t *testing.T) {
 	completeName := "Omar"
 
 	changeString(&completeName)
 
-	if completeName == "Alberto" {
-		t.Log("test ok")
-	} else {
+	if completeName != "Alberto" {
 		t.Error("test Error")
 	}
 }
@@ -27,9 +24,7 @@ func changeString(reference *string) {
 func TestFunctionParametersShareATypeAndReturnThreeValuesAndTheReturnValuesAreNamed(t *testing.T) {
 	added, subs, mul := performNumbers(4, 2)
 
-	if added == 6 && subs == 2 && mul == 16 {
-		t.Log("test ok")
-	} else {
+	if added != 6 || subs != 2 || mul != 16 {
 		t.Error("test error")
 	}
 }
@@ -41,9 +36,7 @@ func TestFunctionAnonimus(t *testing.T) {
 
 	var nagtiveValue = deny(10)
 
-	if nagtiveValue == -10 {
-		t.Log("test ok")
-	} else {
+	if nagtiveValue != -10 {
 		t.Error("test error")
 	}
 }
@@ -65,9 +58,7 @@ func TestFunctionIOC(t *testing.T) {
 	}
 	var positiveValue = functionWithFunctionArgument(adder)
 
-	if positiveValue == 4 && negativeValue == -4 {
-		t.Log("test ok")
-	} else {
+	if positiveValue != 4 || negativeValue != -4 {
 		t.Error("test error")
 	}
 }
@@ -76,10 +67,7 @@ func TestFunctionIOC(t *testing.T) {
 func TestFunctionReturnFunction(t *testing.T) {
 	var concater = concat("Maru")
 	var result = concater(" :)")
-	fmt.Println(result)
-	if result == "Hi Maru :)" {
-		t.Log("test ok")
-	} else {
+	if result != "Hi Maru :)" {
 		t.Error("test error")
 	}
 }
