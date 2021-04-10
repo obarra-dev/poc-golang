@@ -4,16 +4,7 @@ import (
 	"testing"
 )
 
-//if and switch accept an optional initialization statement
-func TestIfWithShortStatement(t *testing.T) {
-	if der := "golang"; der != "golang" {
-		t.Error("Error")
-	}
-	if der := "golang"; der != "java" {
-		t.Log("OK")
-	}
-}
-
+//  parentheses are redundant, so are optional
 func TestIf(t *testing.T) {
 	var message string
 	var herAge = 29
@@ -27,5 +18,15 @@ func TestIf(t *testing.T) {
 
 	if message != "Equal 29" {
 		t.Error("Error", message)
+	}
+}
+
+//if and switch accept an optional initialization statement
+func TestIfWithShortStatement(t *testing.T) {
+	if der := "golang"; der != "golang" {
+		t.Error("Error")
+	}
+	if der := "golang"; der != "java" {
+		t.Log("OK")
 	}
 }

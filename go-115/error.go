@@ -17,15 +17,32 @@ func NewCustomError(code string, message string) error {
 	return &customError{code, message}
 }
 
-type OmarError struct {
+type omarError struct {
 	code    string
 	message string
 }
 
-func (m *OmarError) Error() string {
+func (m *omarError) Error() string {
 	return fmt.Sprintf("Omar Error: %s - %s", m.code, m.message)
 }
 
 func NewOmarError(code string, message string) error {
-	return &OmarError{code, message}
+	return &omarError{code, message}
+}
+
+type barraError struct {
+	query string
+	err   error
+}
+
+func (e *barraError) Error() string {
+	return fmt.Sprintf("Barra Error: %s - %s", e.query, e.err.Error())
+}
+
+func (e *barraError) Unwrap() error {
+	return e.err
+}
+
+func NewBarraError(query string, err error) error {
+	return &barraError{query, err}
 }

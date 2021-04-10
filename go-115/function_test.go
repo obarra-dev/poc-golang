@@ -23,6 +23,7 @@ func changeString(reference *string) {
 	*reference = "Alberto"
 }
 
+// avoid to use naming retun values, it is hard to read
 func TestFunctionParametersShareATypeAndReturnThreeValuesAndTheReturnValuesAreNamed(t *testing.T) {
 	added, subs, mul := performNumbers(4, 2)
 
