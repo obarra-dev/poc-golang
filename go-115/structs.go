@@ -26,7 +26,7 @@ func (p *Point) Scale(f int) {
 
 type ShapeInterface interface {
 	Abs() float64
-	Scale(f int)
+	Scale(int)
 }
 
 type Circle struct {
