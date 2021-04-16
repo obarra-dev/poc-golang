@@ -62,6 +62,7 @@ func TestStructSimple(t *testing.T) {
 	}
 }
 
+// Embedding type See embedding_test.go
 func TestStructFlatten(t *testing.T) {
 	circle := CircleFlatten{&Point{4, 9}, 3.3}
 	circle.x = 10
