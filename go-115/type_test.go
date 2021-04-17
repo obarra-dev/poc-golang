@@ -8,9 +8,12 @@ import (
 //Type aliases
 type day = int
 
+//it does not compile, becaouse day can not be extended
+//func (d day) doSomethingDay() {}
+
 //day and int are the same
 func TestTypeAlias(t *testing.T) {
-	var n int = 0
+	var n int = 10
 	var a day = n
 	if a != 10 {
 		t.Error("test Error", a)
@@ -20,6 +23,9 @@ func TestTypeAlias(t *testing.T) {
 //Type definition
 type month int
 
+//it compile, becaouse day can be extended
+func (d month) doSomethingMonth() month { return d }
+
 //The new type is called a defined type. It is different from any other type, including the type it is created from.
 func TestTypeDefinition(t *testing.T) {
 	var n int = 10
@@ -27,6 +33,23 @@ func TestTypeDefinition(t *testing.T) {
 	var a month = month(n)
 	if a != 10 {
 		t.Error("test Error", a)
+	}
+	a = a.doSomethingMonth()
+	if a != 10 {
+		t.Error("test Error", a)
+	}
+}
+
+// it is possible becaouse,  it will have the sme memory layout and struct,
+func TestTypeConversion(t *testing.T) {
+	var a month = month(10)
+	if a != 10 {
+		t.Error("test Error", a)
+	}
+
+	var b int = int(a)
+	if b != 10 {
+		t.Error("test Error", b)
 	}
 }
 
