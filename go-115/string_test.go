@@ -2,58 +2,200 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 	"testing"
+	"unicode"
 )
 
 //Types String
 // Raw string literals
 // Interpreted string literals
+
+func TestStringAreASliceOfBytes(t *testing.T) {
+	myStringHex := "\x47\x6f\x20\x69\x73\x20\x41\x77\x65\x73\x6f\x6d\x65\x21"
+	if myStringHex != "Go is Awesome!" {
+		t.Error("Error ", myStringHex)
+	}
+	myString := "Go is Awesome!"
+	if myString != "Go is Awesome!" {
+		t.Error("Error ", myString)
+	}
+
+	byte := myStringHex[0]
+	if byte != 71 {
+		t.Error("Error ", byte)
+	}
+	byte = myString[0]
+	if byte != 71 {
+		t.Error("Error ", byte)
+	}
+
+	hex := fmt.Sprintf("%x", myStringHex[0])
+	if hex != "47" {
+		t.Error("Error ", hex)
+	}
+	hex = fmt.Sprintf("%x", myString[0])
+	if hex != "47" {
+		t.Error("Error ", hex)
+	}
+
+	char := fmt.Sprintf("%q", myStringHex[0])
+	if char != "'G'" {
+		t.Error("Error ", char)
+	}
+	char = fmt.Sprintf("%q", myString[0])
+	if char != "'G'" {
+		t.Error("Error ", char)
+	}
+}
+
+func TestStringTrim(t *testing.T) {
+	myString := "    never Trust a Programmer    "
+	r := strings.Trim(myString, " ")
+	if r != "never Trust a Programmer" {
+		t.Error("Error", r, len(r))
+	}
+	r = strings.TrimSpace(myString)
+	if r != "never Trust a Programmer" {
+		t.Error("Error", r, len(r))
+	}
+
+	myString = "    77never Trust a Programmer!!!    "
+	r = strings.TrimFunc(myString, func(r rune) bool {
+		return !unicode.IsLetter(r)
+	})
+	if r != "never Trust a Programmer" {
+		t.Error("Error", r, len(r))
+	}
+
+	myString = "    never Trust a Programmer    "
+	if strings.TrimLeft(myString, " ") != "never Trust a Programmer    " ||
+		strings.TrimRight(myString, " ") != "    never Trust a Programmer" {
+		t.Error("Error")
+	}
+	if strings.TrimPrefix(myString, "    ") != "never Trust a Programmer    " ||
+		strings.TrimSuffix(myString, "    ") != "    never Trust a Programmer" {
+		t.Error("Error")
+	}
+}
+
+func TestStringContains(t *testing.T) {
+	myString := "never Trust a Programmer"
+	r := strings.Contains(myString, "Programmer")
+	if !r {
+		t.Error("Error", r)
+	}
+
+	if !strings.HasPrefix(myString, "never") || !strings.HasSuffix(myString, "Programmer") {
+		t.Error("Error")
+	}
+}
+
+func TestStringRemplace(t *testing.T) {
+	myString := "I am Programmer but never Trust a Programmer"
+	r := strings.Replace(myString, "Programmer", "Lawer", -1)
+	if r != "I am Lawer but never Trust a Lawer" {
+		t.Error("Error", r)
+	}
+
+	r = strings.Replace(myString, "Programmer", "Lawer", 1)
+	if r != "I am Lawer but never Trust a Programmer" {
+		t.Error("Error", r)
+	}
+
+	r = strings.ReplaceAll(myString, "Programmer", "Lawer")
+	if r != "I am Lawer but never Trust a Lawer" {
+		t.Error("Error", r)
+	}
+}
+
+// compare is faster than equal operator, but for Basic comparison equal are somtimes faster
+func TestStringCompare(t *testing.T) {
+	r := strings.Compare("Omar", "omar")
+	if r != -1 {
+		t.Error("Error ", r)
+	}
+
+	r = strings.Compare("omar", "Omar")
+	if r != 1 {
+		t.Error("Error ", r)
+	}
+
+	//it is case sensitive
+	r = strings.Compare("omar", "omar")
+	if r != 0 {
+		t.Error("Error ", r)
+	}
+}
+
+func TestStringSubstring(t *testing.T) {
+	myString := "/api/products/4/cbus/products/other"
+	segment := myString[3:6]
+	if segment != "i/p" {
+		t.Error("Error", segment)
+	}
+}
+
 func TestStringSplit(t *testing.T) {
 	myString := "/api/products/4/cbus/products/other"
 
-	segments := strings.Split(myString, "/products")
+	segments := strings.Split(myString, "/")
+	if len(segments) != 7 || segments[0] != "" || segments[1] != "api" {
+		t.Error("Error", segments, len(segments))
+	}
 
-	if len(segments) != 3 {
+	segments = strings.SplitAfter(myString, "/")
+	if len(segments) != 7 || segments[0] != "/" || segments[1] != "api/" {
+		t.Error("Error", segments, len(segments))
+	}
+
+	segments = strings.SplitAfterN(myString, "/", 2)
+	if len(segments) != 2 || segments[0] != "/" || segments[1] != "api/products/4/cbus/products/other" {
 		t.Error("Error", segments, len(segments))
 	}
 }
 
-// you can not concat string with number, der = "test" + 40 is compile error
-func TestStringSPrintf(t *testing.T) {
-	result := fmt.Sprintf("%s%+8d", "test", 40)
-	if result != "test     +40" {
-		t.Error("Error:", result)
+func TestStringFields(t *testing.T) {
+	myString := "never Trust a Programmer"
+	r := strings.Fields(myString)
+	if len(r) != 4 || r[0] != "never" || r[1] != "Trust" {
+		t.Error("Error", r, len(r))
 	}
 }
 
-//Atoi is equivalent to ParseInt(s, 10, 0)
-func TestStringStrconv(t *testing.T) {
-	number, _ := strconv.Atoi("998")
-
-	if number != 998 {
-		t.Error("Error", number)
+func TestStringFieldsFunc(t *testing.T) {
+	f := func(c rune) bool {
+		return unicode.IsSpace(c) || c == '.'
+	}
+	myString := "never Trust a Programmer. Never."
+	r := strings.FieldsFunc(myString, f)
+	if len(r) != 5 || r[0] != "never" || r[1] != "Trust" {
+		t.Error("Error", r, len(r))
 	}
 }
 
-//Use strconv.ParseInt to parse a decimal string (base 10) and check if it fits into an int64.
-func TestStringParseInt(t *testing.T) {
-	number, err := strconv.ParseInt("-128", 10, 8)
-	if number != -128 || err != nil {
-		t.Error("Error", number, err)
+func TestStringCasing(t *testing.T) {
+	myString := "never Trust a Programmer"
+	r := strings.ToLower(myString)
+	if r != "never trust a programmer" {
+		t.Error("Error", r, myString)
 	}
 
-	number, err = strconv.ParseInt("-129", 10, 8)
-	if number != -128 || err.Error() != `strconv.ParseInt: parsing "-129": value out of range` {
-		t.Error("Error", number, err.Error())
+	r = strings.ToUpper(myString)
+	if r != "NEVER TRUST A PROGRAMMER" {
+		t.Error("Error", r, myString)
+	}
+	r = strings.Title(myString)
+	if r != "Never Trust A Programmer" {
+		t.Error("Error", r, myString)
 	}
 }
 
-func TestIntToString(t *testing.T) {
-	result := strconv.Itoa(404)
-	if result != "404" {
-		t.Error("Error", result)
+func TestStringRepeat(t *testing.T) {
+	myString := "Programmer"
+	r := strings.Repeat(myString, 5)
+	if r != "ProgrammerProgrammerProgrammerProgrammerProgrammer" {
+		t.Error("Error", r)
 	}
 }
 
@@ -154,9 +296,13 @@ Second line`
 
 func TestAscii(t *testing.T) {
 	result := string('o')
-	//results := string(11)
-
 	if result != "o" {
+		t.Error("Error", result)
+	}
+
+	var letterR byte = 114
+	result = string(letterR)
+	if result != "r" {
 		t.Error("Error", result)
 	}
 }
