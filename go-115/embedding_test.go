@@ -47,7 +47,7 @@ func (s socialSecurityNumber) DI() string {
 	return "S-DI" + string(s)
 }
 
-//It is a conflict, i solved it wrapping
+//It is a conflict (ambiguos reference), i solved it wrapping
 func (e employeee) ID() string {
 	return "E-" + e.identificable.ID()
 }
