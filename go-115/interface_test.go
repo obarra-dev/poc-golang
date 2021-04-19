@@ -67,9 +67,7 @@ func TestInterfaceTypeAssertion(t *testing.T) {
 
 	value, ok := i.(string)
 
-	if ok == true && value == "barra" {
-		t.Log("test ok")
-	} else {
+	if ok != true || value != "barra" {
 		t.Error("test Error", value, ok)
 	}
 }
@@ -95,6 +93,42 @@ func TestInterfaceTypeAssertionSwitch(t *testing.T) {
 	}
 
 	if typo != "string" {
+		t.Error("test Error", typo)
+	}
+}
+
+func TestInterfaceTypeAssertionSwitchWithCasting(t *testing.T) {
+	var i interface{} = struct {
+		name     string
+		lastName string
+	}{
+		name:     "omar",
+		lastName: "barra",
+	}
+
+	typo := ""
+	switch v := i.(type) {
+	case bool:
+		typo = "bool"
+		typo = fmt.Sprintf("%s-%T", typo, v)
+	case *bool:
+		typo = "*bool"
+		typo = fmt.Sprintf("%s-%T", typo, v)
+	case *int:
+		typo = "*int"
+		typo = fmt.Sprintf("%s-%T", typo, v)
+	case int:
+		typo = "int"
+		typo = fmt.Sprintf("%s-%T", typo, v)
+	case string:
+		typo = "string"
+		typo = fmt.Sprintf("%s-%T", typo, v)
+	default:
+		typo = "no type"
+		typo = fmt.Sprintf("%s-%T", typo, v)
+	}
+
+	if typo != "no type-struct { name string; lastName string }" {
 		t.Error("test Error", typo)
 	}
 }

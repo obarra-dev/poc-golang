@@ -2,6 +2,18 @@ package main
 
 import "testing"
 
+func TestStructEqualZeroValue(t *testing.T) {
+	point := Point{y: 4, x: 9}
+	if point == (Point{}) {
+		t.Error("Error ", point)
+	}
+
+	point = Point{}
+	if point != (Point{}) {
+		t.Error("Error ", point)
+	}
+}
+
 //If the type is simple, Golang makes equatable and hashable it
 func TestStructEqualForSimpleType(t *testing.T) {
 	point := Point{y: 4, x: 9}
@@ -114,5 +126,4 @@ func TestInterfaceWhenHasDynamicFieldShouldBePanic(t *testing.T) {
 	if things1 != things2 {
 		t.Error("Error ", things1, things2)
 	}
-
 }
