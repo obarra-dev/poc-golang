@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestStructEqualZeroValue(t *testing.T) {
 	point := Point{y: 4, x: 9}
@@ -29,6 +32,11 @@ func TestStructNotEqualForComplexType(t *testing.T) {
 
 	//Centers have different pointers
 	if circle == otherCircle {
+		t.Error("Error, ", circle, otherCircle)
+	}
+
+	//The DeepEqual()
+	if !reflect.DeepEqual(circle, otherCircle) {
 		t.Error("Error, ", circle, otherCircle)
 	}
 

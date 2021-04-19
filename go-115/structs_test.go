@@ -5,8 +5,6 @@ import (
 	"testing"
 )
 
-//The DeeplyEqual() method is defined under “reflect” package.
-
 func TestStructPointerAndCopy(t *testing.T) {
 	point := Point{y: 4, x: 9}
 	//create a copy
