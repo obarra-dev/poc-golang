@@ -117,3 +117,14 @@ func TestTimeDurationUntil(t *testing.T) {
 		t.Error("Error ", r)
 	}
 }
+
+func TestTimeDurationSub(t *testing.T) {
+	now := time.Now()
+	future := now.AddDate(0, 0, 1)
+
+	var elapsed time.Duration = future.Sub(now)
+	r := fmt.Sprintf("%.f", elapsed.Hours())
+	if r != "24" {
+		t.Error("Error ", r)
+	}
+}
