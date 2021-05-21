@@ -71,7 +71,7 @@ const (
 	Train
 )
 
-func TestTypeDefinitionConstantsUsingiota(t *testing.T) {
+func TestTypeDefinitionConstantsUsingIota(t *testing.T) {
 	if Bike != 0 || Bus != 1 || Train != 2 {
 		t.Error("test Error", Bike, Bus, Train)
 	}

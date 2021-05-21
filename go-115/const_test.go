@@ -76,3 +76,17 @@ func TestConstCreateInmutableError(t *testing.T) {
 		t.Error("Error ", myError2, myError)
 	}
 }
+
+const (
+	myConst1 = iota / 0.5
+	myConst2
+	myConst3
+	myConst4
+	myConst5
+)
+
+func TestConstIota(t *testing.T) {
+	if myConst1 != 0 || myConst2 != 2 || myConst3 != 4 || myConst4 != 6 || myConst5 != 8 {
+		t.Error("Error ", myConst1, myConst2, myConst3, myConst4, myConst5)
+	}
+}
