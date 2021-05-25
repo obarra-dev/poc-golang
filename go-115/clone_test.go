@@ -4,6 +4,31 @@ import (
 	"testing"
 )
 
+func TestCopySlice(t *testing.T) {
+	x := [3]string{"zero", "one", "two"}
+
+	y := make([]string, len(x))
+	copy(y, x[:]) // slice "z" is a copy of the slice created from array "x"
+
+	y[1] = "none" // the value at index 1 is now "Belka" for only "y"
+
+	if x[1] != "one" || y[1] != "none" {
+		t.Error("Error: ", y)
+	}
+}
+
+func TestCloneSimpleSlice(t *testing.T) {
+	x := [3]string{"zero", "one", "two"}
+
+	y := x[:] // slice "y" points to the underlying array "x"
+
+	y[1] = "none" // the value at index 1 is now "Belka" for both "y" and "x"
+
+	if x[1] != "none" || y[1] != "none" {
+		t.Error("Error: ", y)
+	}
+}
+
 //Go supports equality checking structs.
 func TestCloneSimple(t *testing.T) {
 	point := Point{y: 4, x: 9}
