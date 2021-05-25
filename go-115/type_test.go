@@ -40,7 +40,7 @@ func TestTypeDefinition(t *testing.T) {
 	}
 }
 
-// it is possible becaouse,  it will have the sme memory layout and struct,
+// it is possible because,  it will have the same memory layout and struct,
 func TestTypeConversion(t *testing.T) {
 	var a month = month(10)
 	if a != 10 {
@@ -50,6 +50,33 @@ func TestTypeConversion(t *testing.T) {
 	var b int = int(a)
 	if b != 10 {
 		t.Error("test Error", b)
+	}
+}
+
+type LeaveType string
+
+const (
+	AnnualLeave LeaveType = "AnnualLeave"
+	Sick                  = "Sick"
+	BankHoliday           = "BankHoliday"
+	Other                 = "Other"
+)
+
+func TestTypeDefinitionSetAfterVarCreation(t *testing.T) {
+	var lt LeaveType
+
+	// it compiles, so TypeAlias allows any values
+	lt = "Hello"
+	if lt != "Hello" {
+		t.Error("test Error", lt)
+	}
+}
+
+func TestTypeDefinitionConversionWithInvalidValue(t *testing.T) {
+	// it compiles, so TypeAlias allows any values
+	var lt LeaveType = LeaveType("Hello")
+	if lt != "Hello" {
+		t.Error("test Error", lt)
 	}
 }
 
