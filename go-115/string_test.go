@@ -8,8 +8,42 @@ import (
 )
 
 //Types String
-// Raw string literals
 // Interpreted string literals
+
+func TestString(t *testing.T) {
+	got := "Go is Awesome!"
+	if got != "Go is Awesome!" {
+		t.Errorf("expect %s got %s", "Go is Awesome!", got)
+	}
+}
+
+//To write multiline string in GO you can use a raw string literal, where the string is delimited by back quotes
+// Raw string literals, delimited by backticks (back quotes), are interpreted literally. They can contain line breaks, and backslashes have no special meaning.
+func TestStringMultiLine(t *testing.T) {
+	got := `
+	{
+		"state":"Awesome",
+		"data":[
+		   {
+			  "language":"Go"
+		   }
+		]
+	 }`
+
+	expect := "\n" +
+		"\t{\n" +
+		"\t\t\"state\":\"Awesome\",\n" +
+		"\t\t\"data\":[\n" +
+		"\t\t   {\n" +
+		"\t\t\t  \"language\":\"Go\"\n" +
+		"\t\t   }\n" +
+		"\t\t]\n" +
+		"\t }"
+
+	if got != expect {
+		t.Errorf("expect %s got %s", expect, got)
+	}
+}
 
 func TestStringAreASliceOfBytes(t *testing.T) {
 	myStringHex := "\x47\x6f\x20\x69\x73\x20\x41\x77\x65\x73\x6f\x6d\x65\x21"
@@ -46,6 +80,111 @@ func TestStringAreASliceOfBytes(t *testing.T) {
 	char = fmt.Sprintf("%q", myString[0])
 	if char != "'G'" {
 		t.Error("Error ", char)
+	}
+}
+
+func TestStringConvertToByteSliceAndViceVersa(t *testing.T) {
+	bytes := []byte{71, 111, 32, 105, 115, 32, 65, 119, 101, 115, 111, 109, 101, 33}
+	got := string(bytes)
+
+	expect := "Go is Awesome!"
+
+	if got != expect {
+		t.Errorf("expect %s got %s", expect, got)
+	}
+}
+
+func TestStringLength(t *testing.T) {
+	s := "golang"
+	if len(s) != 6 {
+		t.Error("Error", s)
+	}
+
+	s = "вишня"
+	if len(s) != 10 {
+		t.Error("Error", len(s))
+	}
+
+	s = "🐺🦊🦝"
+	if len(s) != 12 {
+		t.Error("Error", len(s))
+	}
+
+	s = "नमस्ते"
+	if len(s) != 18 {
+		t.Error("Error", len(s))
+	}
+}
+
+func TestStringIsBlank(t *testing.T) {
+	myString := "\n\n\t\t"
+
+	//is blank first option
+	if strings.TrimSpace(myString) != "" {
+		t.Error("Error ", myString)
+	}
+
+	//is blank second option
+	if len(strings.TrimSpace(myString)) != 0 {
+		t.Error("Error ", myString)
+	}
+}
+
+func TestStringCharAt(t *testing.T) {
+	myString := "Go is Awesome!"
+	//at index 0, it is byte
+	b := myString[0]
+
+	//covert byte to rune, rune is a character
+	got := rune(b)
+
+	expect := 'G'
+	if got != expect {
+		t.Errorf("expect %c got %c", expect, b)
+	}
+}
+
+func TestStringFormating(t *testing.T) {
+	got := fmt.Sprintf("cod: %d - language: %s - note: %0.2f", 1, "Golang", 99.9999)
+
+	expect := "cod: 1 - language: Go is Awesome! - note: 100.00"
+	if got != expect {
+		t.Errorf("expect %s got %s", expect, got)
+	}
+}
+
+func TestStringEquals(t *testing.T) {
+	got := "Go is Awesome!"
+	expect := "Go is Awesome!"
+
+	// == is equal, != is not equal both are case sensetive
+	if got != expect {
+		t.Errorf("expect %s got %s", expect, got)
+	}
+
+	expect = "go is awesome!"
+	// EqualFold is case insensitivity
+	if !strings.EqualFold(got, expect) {
+		t.Errorf("expect %s got %s", expect, got)
+	}
+}
+
+// compare is faster than equal operator, but for Basic comparison equal are somtimes faster
+func TestStringCompare(t *testing.T) {
+	r := strings.Compare("Omar", "omar")
+	if r != -1 {
+		t.Error("Error ", r)
+	}
+
+	r = strings.Compare("omar", "Omar")
+	if r != 1 {
+		t.Error("Error ", r)
+	}
+
+	//it is case sensitive
+	r = strings.Compare("omar", "omar")
+	if r != 0 {
+		t.Error("Error ", r)
 	}
 }
 
@@ -106,25 +245,6 @@ func TestStringRemplace(t *testing.T) {
 	r = strings.ReplaceAll(myString, "Programmer", "Lawer")
 	if r != "I am Lawer but never Trust a Lawer" {
 		t.Error("Error", r)
-	}
-}
-
-// compare is faster than equal operator, but for Basic comparison equal are somtimes faster
-func TestStringCompare(t *testing.T) {
-	r := strings.Compare("Omar", "omar")
-	if r != -1 {
-		t.Error("Error ", r)
-	}
-
-	r = strings.Compare("omar", "Omar")
-	if r != 1 {
-		t.Error("Error ", r)
-	}
-
-	//it is case sensitive
-	r = strings.Compare("omar", "omar")
-	if r != 0 {
-		t.Error("Error ", r)
 	}
 }
 
@@ -278,22 +398,6 @@ func TestStringBuilderFormat(t *testing.T) {
 	}
 }
 
-//To write multiline string in GO you can use a raw string literal, where the string is delimited by back quotes
-// Raw string literals, delimited by backticks (back quotes), are interpreted literally. They can contain line breaks, and backslashes have no special meaning.
-func TestStringMultiLine(t *testing.T) {
-	result :=
-		`First line
-Second line`
-
-	expected :=
-		"First line\n" +
-			"Second line"
-
-	if result != expected {
-		t.Error("Error", result, expected)
-	}
-}
-
 func TestAscii(t *testing.T) {
 	result := string('o')
 	if result != "o" {
@@ -328,8 +432,7 @@ func TestByteVsRune(t *testing.T) {
 		t.Error("Error", resultO, resultM, resultA, resultR, resultB)
 	}
 }
-
-func TestStringToByteSliceAndViceVersa(t *testing.T) {
+func TestStringToByteSliceAndViceVersadd(t *testing.T) {
 	nameString := "omar barra"
 
 	nameSlice := []byte(nameString)

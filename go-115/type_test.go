@@ -29,25 +29,35 @@ func (d month) doSomethingMonth() month { return d }
 //The new type is called a defined type. It is different from any other type, including the type it is created from.
 func TestTypeDefinition(t *testing.T) {
 	var n int = 10
-	//var a month = n  compile error
-	var a month = month(n)
-	if a != 10 {
-		t.Error("test Error", a)
+	//var a month = n  //compile error
+
+	var m month = month(n)
+	if m != 10 {
+		t.Error("test Error", m)
 	}
-	a = a.doSomethingMonth()
-	if a != 10 {
-		t.Error("test Error", a)
+
+	// can not assign other type but you can assign the orginal type
+	m = 15
+	if m != 15 {
+		t.Error("test Error", m)
+	}
+
+	m = m.doSomethingMonth()
+	if m != 15 {
+		t.Error("test Error", m)
 	}
 }
 
 // it is possible because,  it will have the same memory layout and struct,
 func TestTypeConversion(t *testing.T) {
-	var a month = month(10)
-	if a != 10 {
-		t.Error("test Error", a)
+	// var m month = 10 // it compile!!, it is ok
+	var m month = month(10)
+	if m != 10 {
+		t.Error("test Error", m)
 	}
 
-	var b int = int(a)
+	// var b int = int(m) // it no compile!!
+	var b int = int(m)
 	if b != 10 {
 		t.Error("test Error", b)
 	}
@@ -61,16 +71,6 @@ const (
 	BankHoliday           = "BankHoliday"
 	Other                 = "Other"
 )
-
-func TestTypeDefinitionSetAfterVarCreation(t *testing.T) {
-	var lt LeaveType
-
-	// it compiles, so TypeAlias allows any values
-	lt = "Hello"
-	if lt != "Hello" {
-		t.Error("test Error", lt)
-	}
-}
 
 func TestTypeDefinitionConversionWithInvalidValue(t *testing.T) {
 	// it compiles, so TypeAlias allows any values
