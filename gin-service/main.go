@@ -6,6 +6,7 @@ import (
 	"gin-service/service"
 	"github.com/gin-gonic/gin"
 	gindump "github.com/tpkeeper/gin-dump"
+	"net/http"
 )
 
 var (
@@ -27,11 +28,15 @@ func main() {
 	api.Use(middleware.BasicAuth())
 	{
 		api.GET("/videos", func(c *gin.Context) {
-			c.JSON(200, videoController.FindAll())
+			c.JSON(http.StatusOK, videoController.FindAll())
 		})
 
 		api.POST("/videos", func(c *gin.Context) {
-			c.JSON(200, videoController.Save(c))
+			if err := videoController.Save(c); err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			} else {
+				c.JSON(http.StatusCreated, gin.H{})
+			}
 		})
 	}
 

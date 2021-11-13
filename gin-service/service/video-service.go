@@ -13,7 +13,17 @@ type videoService struct {
 
 func New() VideoService {
 	return &videoService{
-		videos: []entity.Video{},
+		videos: []entity.Video{{
+			Title:       "Cool title",
+			Description: "Some movie",
+			URL:         "https://www.youtube.com/watch?v=vjd3XmzXZ5s",
+			Actors:      40,
+			Author:      entity.Person{
+				Name:  "Omar Barra",
+				Age:   30,
+				Email: "der@gmail.com",
+			},
+		}},
 	}
 }
 
