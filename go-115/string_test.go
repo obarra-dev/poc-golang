@@ -10,10 +10,10 @@ import (
 //Types String
 // Interpreted string literals
 
-func TestString(t *testing.T) {
+func TestStringLiteral(t *testing.T) {
 	got := "Go is Awesome!"
 	if got != "Go is Awesome!" {
-		t.Errorf("expect %s got %s", "Go is Awesome!", got)
+		t.Errorf("expected %s got %s", "Go is Awesome!", got)
 	}
 }
 
@@ -41,15 +41,27 @@ func TestStringMultiLine(t *testing.T) {
 		"\t }"
 
 	if got != expect {
-		t.Errorf("expect %s got %s", expect, got)
+		t.Errorf("expected %s got %s", expect, got)
+	}
+}
+
+func TestStringSliceBytesUTF8(t *testing.T) {
+	got := "Hello 世界 🦊"
+	expected := "\x48\x65\x6c\x6c\x6f\x20\xe4\xb8\x96\xe7\x95\x8c\x20\xf0\x9f\xa6\x8a"
+
+	if got != expected {
+		t.Errorf("expected %s got %s", expected, got)
 	}
 }
 
 func TestStringAreASliceOfBytes(t *testing.T) {
 	myStringHex := "\x47\x6f\x20\x69\x73\x20\x41\x77\x65\x73\x6f\x6d\x65\x21"
-	if myStringHex != "Go is Awesome!" {
-		t.Error("Error ", myStringHex)
+	expected := "Go is Awesome!"
+
+	if myStringHex != expected {
+		t.Errorf("expected %s got %s", expected, myStringHex)
 	}
+
 	myString := "Go is Awesome!"
 	if myString != "Go is Awesome!" {
 		t.Error("Error ", myString)
@@ -57,7 +69,7 @@ func TestStringAreASliceOfBytes(t *testing.T) {
 
 	byte := myStringHex[0]
 	if byte != 71 {
-		t.Error("Error ", byte)
+		t.Errorf("expected %d got %d", 71, byte)
 	}
 	byte = myString[0]
 	if byte != 71 {
@@ -130,12 +142,12 @@ func TestStringIsBlank(t *testing.T) {
 	}
 }
 
-func TestStringCharAt(t *testing.T) {
+func TestStringElementAt(t *testing.T) {
 	myString := "Go is Awesome!"
-	//at index 0, it is byte
+	//at index 0, it is a byte
 	b := myString[0]
 
-	//covert byte to rune, rune is a character
+	//convert byte to rune, rune is a character
 	got := rune(b)
 
 	expect := 'G'
@@ -153,19 +165,25 @@ func TestStringFormating(t *testing.T) {
 	}
 }
 
-func TestStringEquals(t *testing.T) {
+func TestStringEqualsCaseSensitive(t *testing.T) {
 	got := "Go is Awesome!"
 	expect := "Go is Awesome!"
 
-	// == is equal, != is not equal both are case sensetive
 	if got != expect {
-		t.Errorf("expect %s got %s", expect, got)
+		t.Errorf("expected %s got %s", expect, got)
 	}
 
-	expect = "go is awesome!"
-	// EqualFold is case insensitivity
+	if got == "other text" {
+		t.Errorf("expected %s got %s", expect, got)
+	}
+}
+
+func TestStringEqualsCaseInsensitive(t *testing.T) {
+	got := "Go is Awesome!"
+	expect := "go is awesome!"
+
 	if !strings.EqualFold(got, expect) {
-		t.Errorf("expect %s got %s", expect, got)
+		t.Errorf("expected %s got %s", expect, got)
 	}
 }
 
@@ -244,6 +262,19 @@ func TestStringRemplace(t *testing.T) {
 
 	r = strings.ReplaceAll(myString, "Programmer", "Lawer")
 	if r != "I am Lawer but never Trust a Lawer" {
+		t.Error("Error", r)
+	}
+}
+
+func TestStringRemovingSpace(t *testing.T) {
+	myString := "I am Programmer"
+	r := strings.Replace(myString, " ", "", -1)
+	if r != "IamProgrammer" {
+		t.Error("Error", r)
+	}
+
+	r = strings.ReplaceAll(myString, " ", "")
+	if r != "IamProgrammer" {
 		t.Error("Error", r)
 	}
 }
@@ -328,13 +359,26 @@ func TestStringsJoin(t *testing.T) {
 	}
 }
 
-func TestStringBuilder(t *testing.T) {
-	var builder strings.Builder
-	builder.WriteString("First")
-	builder.WriteString("Second")
-	result := builder.String()
+func TestStringConcat(t *testing.T) {
+	result := "First" + "Second"
 
 	if result != "FirstSecond" {
+		t.Error("Error", result)
+	}
+}
+
+func TestStringBuilder(t *testing.T) {
+	words := []string{"First", "Second", "Third"}
+
+	var builder strings.Builder
+
+	for _, w := range words {
+		builder.WriteString(w)
+	}
+
+	result := builder.String()
+
+	if result != "FirstSecondThird" {
 		t.Error("Error", result)
 	}
 }
@@ -361,11 +405,13 @@ func TestStringIterationWithRange(t *testing.T) {
 	var sb strings.Builder
 	for _, v := range namestring {
 
+		fmt.Printf("%q\n", v)
+
 		sb.WriteRune(v)
 	}
 
 	result := sb.String()
-	if result != "omar barra" {
+	if result != "omar baxrra" {
 		t.Error("Error", result)
 	}
 }
@@ -379,6 +425,16 @@ func TestStringIteration(t *testing.T) {
 	}
 
 	result := sb.String()
+	if result != "omar barra" {
+		t.Error("Error", result)
+	}
+
+	sb.Reset()
+	for _, v := range namestring {
+		sb.WriteRune(v)
+	}
+
+	result = sb.String()
 	if result != "omar barra" {
 		t.Error("Error", result)
 	}
