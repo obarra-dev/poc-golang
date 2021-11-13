@@ -4,7 +4,6 @@ import (
 	"gin-service/entity"
 	"gin-service/service"
 	"github.com/gin-gonic/gin"
-
 )
 
 type VideoController interface {

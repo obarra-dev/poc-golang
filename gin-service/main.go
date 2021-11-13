@@ -2,17 +2,22 @@ package main
 
 import (
 	"gin-service/controller"
+	"gin-service/middleware"
 	"gin-service/service"
 	"github.com/gin-gonic/gin"
+	gindump "github.com/tpkeeper/gin-dump"
 )
 
 var (
-	videoService    service.VideoService       = service.New()
-	videoController controller.VideoController = controller.New(videoService)
+	videoService    = service.New()
+	videoController = controller.New(videoService)
 )
 
 func main() {
 	r := gin.Default()
+	r.Use(middleware.BasicAuth())
+	r.Use(middleware.Logger())
+	r.Use(gindump.Dump())
 
 	r.GET("/videos", func(c *gin.Context) {
 		c.JSON(200, videoController.FindAll())
@@ -27,6 +32,7 @@ func main() {
 			"message": "ok",
 		})
 	})
+
 
 	r.Run(":8080")
 }
