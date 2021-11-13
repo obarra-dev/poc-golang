@@ -9,4 +9,3 @@ import (
 func ValidateCoolTitle(fl validator.FieldLevel) bool {
 	return strings.Contains(fl.Field().String(), "Cool")
 }
-

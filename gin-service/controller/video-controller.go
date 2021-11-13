@@ -11,10 +11,10 @@ import (
 
 type VideoController interface {
 	FindAll(ctx *gin.Context) []entity.Video
+	FindOne(ctx *gin.Context) entity.Video
 	Save(ctx *gin.Context) error
 	ShowAll(ctx *gin.Context)
 }
-
 
 type controller struct {
 	service service.VideoService
@@ -28,6 +28,10 @@ func New(service service.VideoService) VideoController {
 	return &controller{
 		service: service,
 	}
+}
+
+func (c *controller) FindOne(ctx *gin.Context) entity.Video {
+	return c.service.FindOne(ctx.Param("GUID"))
 }
 
 func (c *controller) FindAll(ctx *gin.Context) []entity.Video {
@@ -47,7 +51,6 @@ func (c *controller) Save(ctx *gin.Context) error {
 	c.service.Save(video)
 	return nil
 }
-
 
 func (c *controller) ShowAll(ctx *gin.Context) {
 	videos := c.service.FindAll()

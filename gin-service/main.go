@@ -27,6 +27,9 @@ func main() {
 	api := r.Group("/api")
 	api.Use(middleware.BasicAuth())
 	{
+		api.GET("/videos/:GUID", func(c *gin.Context) {
+			c.JSON(http.StatusOK, videoController.FindOne(c))
+		})
 		api.GET("/videos", func(c *gin.Context) {
 			c.JSON(http.StatusOK, videoController.FindAll(c))
 		})
@@ -46,7 +49,6 @@ func main() {
 	{
 		view.GET("/videos", videoController.ShowAll)
 	}
-
 
 	r.Run(":8080")
 }
