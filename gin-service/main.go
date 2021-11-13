@@ -28,7 +28,7 @@ func main() {
 	api.Use(middleware.BasicAuth())
 	{
 		api.GET("/videos", func(c *gin.Context) {
-			c.JSON(http.StatusOK, videoController.FindAll())
+			c.JSON(http.StatusOK, videoController.FindAll(c))
 		})
 
 		api.POST("/videos", func(c *gin.Context) {

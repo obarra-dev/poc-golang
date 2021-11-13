@@ -1,9 +1,13 @@
 package service
 
-import "gin-service/entity"
+import (
+	"gin-service/entity"
+	"strings"
+)
 
 type VideoService interface {
 	Save(entity.Video) entity.Video
+	FindWithFilter(title string) []entity.Video
 	FindAll() []entity.Video
 }
 
@@ -32,6 +36,21 @@ func (service *videoService) Save(video entity.Video) entity.Video {
 	return video
 }
 
+func (service *videoService) FindWithFilter(title string) []entity.Video {
+	if title == "" {
+		return service.FindAll()
+	}
+
+	var filtered []entity.Video
+	for _, video := range service.videos {
+		if strings.ContainsAny(video.Title, title) {
+			filtered = append(filtered, video)
+		}
+	}
+	return filtered
+}
+
 func (service *videoService) FindAll() []entity.Video {
 	return service.videos
 }
+

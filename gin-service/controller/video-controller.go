@@ -10,7 +10,7 @@ import (
 )
 
 type VideoController interface {
-	FindAll() []entity.Video
+	FindAll(ctx *gin.Context) []entity.Video
 	Save(ctx *gin.Context) error
 	ShowAll(ctx *gin.Context)
 }
@@ -30,8 +30,8 @@ func New(service service.VideoService) VideoController {
 	}
 }
 
-func (c *controller) FindAll() []entity.Video {
-	return c.service.FindAll()
+func (c *controller) FindAll(ctx *gin.Context) []entity.Video {
+	return c.service.FindWithFilter(ctx.Query("title"))
 }
 
 func (c *controller) Save(ctx *gin.Context) error {
