@@ -99,10 +99,10 @@ func TestStringConvertToByteSliceAndViceVersa(t *testing.T) {
 	bytes := []byte{71, 111, 32, 105, 115, 32, 65, 119, 101, 115, 111, 109, 101, 33}
 	got := string(bytes)
 
-	expect := "Go is Awesome!"
+	expected := "Go is Awesome!"
 
-	if got != expect {
-		t.Errorf("expect %s got %s", expect, got)
+	if got != expected {
+		t.Errorf("expected %s got %s", expected, got)
 	}
 }
 
@@ -132,13 +132,17 @@ func TestStringIsBlank(t *testing.T) {
 	myString := "\n\n\t\t"
 
 	//is blank first option
-	if strings.TrimSpace(myString) != "" {
-		t.Error("Error ", myString)
+	got := strings.TrimSpace(myString)
+	expected := ""
+	if got != expected {
+		t.Errorf("expected %s got %s", expected, got)
 	}
 
 	//is blank second option
-	if len(strings.TrimSpace(myString)) != 0 {
-		t.Error("Error ", myString)
+	gotSecondOption := len(strings.TrimSpace(myString))
+	expectedSecondOption := 0
+	if gotSecondOption != expectedSecondOption {
+		t.Errorf("expected %d got %d", expectedSecondOption, gotSecondOption)
 	}
 }
 
@@ -150,40 +154,40 @@ func TestStringElementAt(t *testing.T) {
 	//convert byte to rune, rune is a character
 	got := rune(b)
 
-	expect := 'G'
-	if got != expect {
-		t.Errorf("expect %c got %c", expect, b)
+	expected := 'G'
+	if got != expected {
+		t.Errorf("expected %c got %c", expected, b)
 	}
 }
 
 func TestStringFormating(t *testing.T) {
 	got := fmt.Sprintf("cod: %d - language: %s - note: %0.2f", 1, "Golang", 99.9999)
 
-	expect := "cod: 1 - language: Go is Awesome! - note: 100.00"
-	if got != expect {
-		t.Errorf("expect %s got %s", expect, got)
+	expected := "cod: 1 - language: Golang - note: 100.00"
+	if got != expected {
+		t.Errorf("expected %s, got %s", expected, got)
 	}
 }
 
 func TestStringEqualsCaseSensitive(t *testing.T) {
 	got := "Go is Awesome!"
-	expect := "Go is Awesome!"
+	expected := "Go is Awesome!"
 
-	if got != expect {
-		t.Errorf("expected %s got %s", expect, got)
+	if got != expected {
+		t.Errorf("expected %s got %s", expected, got)
 	}
 
 	if got == "other text" {
-		t.Errorf("expected %s got %s", expect, got)
+		t.Errorf("expected %s got %s", expected, got)
 	}
 }
 
 func TestStringEqualsCaseInsensitive(t *testing.T) {
 	got := "Go is Awesome!"
-	expect := "go is awesome!"
+	expected := "go is awesome!"
 
-	if !strings.EqualFold(got, expect) {
-		t.Errorf("expected %s got %s", expect, got)
+	if !strings.EqualFold(got, expected) {
+		t.Errorf("expected %s got %s", expected, got)
 	}
 }
 
@@ -410,9 +414,10 @@ func TestStringIterationWithRange(t *testing.T) {
 		sb.WriteRune(v)
 	}
 
-	result := sb.String()
-	if result != "omar baxrra" {
-		t.Error("Error", result)
+	got := sb.String()
+	expected := "omar barra"
+	if got != expected {
+		t.Errorf("expected %s got %s", expected, got)
 	}
 }
 
