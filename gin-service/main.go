@@ -40,5 +40,13 @@ func main() {
 		})
 	}
 
+	r.Static("/css", "./templates/css")
+	r.LoadHTMLGlob("templates/*.html")
+	view := r.Group("/view")
+	{
+		view.GET("/videos", videoController.ShowAll)
+	}
+
+
 	r.Run(":8080")
 }
