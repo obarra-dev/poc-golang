@@ -9,6 +9,10 @@ service Greeter {
   rpc SayHello (HelloRequest) returns (HelloReply) {}
 }
 
+service ImageService {
+  rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse) {};
+}
+
 // The request message containing the user's name
 message HelloRequest {
   string name = 1;
@@ -24,4 +28,16 @@ message HelloReply {
 
 message GetVendorsOfVenuesRequestFilters {
   bool status = 1;
+}
+
+message UploadImageRequest {
+  oneof data {
+    string name = 1;
+    bytes chunk_data = 3;
+  };
+}
+
+message UploadImageResponse {
+  string id = 1;
+  uint32 size = 3;
 }
