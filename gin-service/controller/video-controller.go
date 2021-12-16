@@ -16,29 +16,29 @@ type VideoController interface {
 	ShowAll(ctx *gin.Context)
 }
 
-type controller struct {
+type videoController struct {
 	service service.VideoService
 }
 
 var validate *validator.Validate
 
-func New(service service.VideoService) VideoController {
+func NewVideoController(service service.VideoService) VideoController {
 	validate = validator.New()
 	validate.RegisterValidation("is-cool", validators.ValidateCoolTitle)
-	return &controller{
+	return &videoController{
 		service: service,
 	}
 }
 
-func (c *controller) FindOne(ctx *gin.Context) entity.Video {
+func (c *videoController) FindOne(ctx *gin.Context) entity.Video {
 	return c.service.FindOne(ctx.Param("GUID"))
 }
 
-func (c *controller) FindAll(ctx *gin.Context) []entity.Video {
+func (c *videoController) FindAll(ctx *gin.Context) []entity.Video {
 	return c.service.FindWithFilter(ctx.Query("title"))
 }
 
-func (c *controller) Save(ctx *gin.Context) error {
+func (c *videoController) Save(ctx *gin.Context) error {
 	var video entity.Video
 	err := ctx.BindJSON(&video)
 	if err != nil {
@@ -52,7 +52,7 @@ func (c *controller) Save(ctx *gin.Context) error {
 	return nil
 }
 
-func (c *controller) ShowAll(ctx *gin.Context) {
+func (c *videoController) ShowAll(ctx *gin.Context) {
 	videos := c.service.FindAll()
 	data := gin.H{
 		"title":  "Video Page",

@@ -11,7 +11,8 @@ import (
 
 var (
 	videoService    = service.New()
-	videoController = controller.New(videoService)
+	videoController = controller.NewVideoController(videoService)
+	fileService = controller.NewFileController()
 )
 
 func main() {
@@ -41,6 +42,15 @@ func main() {
 				c.JSON(http.StatusCreated, gin.H{})
 			}
 		})
+	}
+
+	fileAPI := r.Group("/files")
+	{
+		fileAPI.GET("/download", fileService.DownloadFile)
+		fileAPI.POST("/uploadmany", fileService.UploadManyFile)
+		fileAPI.POST("/uploadone", fileService.UploadSingleFile)
+		fileAPI.POST("/uploadbinary", fileService.UploadBinary)
+
 	}
 
 	r.Static("/css", "./templates/css")
