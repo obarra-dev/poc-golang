@@ -1,0 +1,80 @@
+syntax = "proto3";
+package your.service.v1;
+option go_package = "service/myService";
+//  option go_package = "go_gen/gw";
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/field_mask.proto";
+
+
+service ImageService {
+  rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse) {};
+}
+
+message GetVendorsOfVenuesRequestFilters {
+  bool status = 1;
+}
+
+message UploadImageRequest {
+  oneof data {
+    string name = 1;
+    bytes chunk_data = 3;
+  };
+}
+
+message UploadImageResponse {
+  string id = 1;
+  uint32 size = 3;
+}
+
+
+
+
+message position {
+  int32 x = 1 [json_name = "x",(google.api.field_behavior) = REQUIRED];
+  int32 y = 3 [json_name = "y",(google.api.field_behavior) = REQUIRED];
+}
+message mole {
+  int32 size = 1 [json_name = "size",(google.api.field_behavior) = REQUIRED];
+  position position  = 3 [json_name = "position",(google.api.field_behavior) = REQUIRED];
+}
+message job {
+  string name = 1 [json_name = "name",(google.api.field_behavior) = REQUIRED];
+  int32 level = 3 [json_name = "level",(google.api.field_behavior) = REQUIRED];
+}
+message Person {
+  string id = 1 [json_name = "id",(google.api.field_behavior) = REQUIRED];
+  string name_or_this = 3 [json_name = "name",(google.api.field_behavior) = REQUIRED]; //name_or_this is intentionally left to have a more than one word field name
+  string address = 5 [json_name = "address",(google.api.field_behavior) = REQUIRED];
+  string mail = 7 [json_name = "mail",(google.api.field_behavior) = REQUIRED];
+  int32 age = 9 [json_name = "age",(google.api.field_behavior) = REQUIRED];
+  repeated mole moles = 11 [json_name = "moles",(google.api.field_behavior) = REQUIRED];
+  job job = 13 [json_name = "job",(google.api.field_behavior) = OPTIONAL];
+}
+message CreatePersonMessageRequest{
+  Person person = 1 [json_name = "person",(google.api.field_behavior) = REQUIRED];
+}
+message CreatePersonMessageResponse{
+  string id = 1 [json_name = "id"];
+}
+message UpdatePersonMessageRequest{
+  string id = 1 [json_name = "id", (google.api.field_behavior) = REQUIRED];
+  Person person = 3 [json_name = "person",(google.api.field_behavior) = REQUIRED];
+  google.protobuf.FieldMask update_mask = 5;
+}
+message UpdatePersonMessageResponse{
+}
+message GetPersonMessageRequest{
+  string id = 1 [json_name = "id",(google.api.field_behavior) = REQUIRED];
+}
+message GetPersonMessageResponse{
+  Person person = 1 [json_name = "person",(google.api.field_behavior) = REQUIRED];
+}
+
+service YourService {
+  rpc Get(GetPersonMessageRequest) returns (GetPersonMessageResponse) {
+    option (google.api.http) = {
+      get: "/person/{id}"
+    };
+  }
+}
