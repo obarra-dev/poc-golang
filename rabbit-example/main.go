@@ -3,11 +3,15 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"time"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
+
+// to create the rabbit-server
+// docker run -d --hostname my-rabbit --name some-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
 
 func main() {
 	connection, err := amqp.Dial("amqp://guest:guest@localhost:5672")
@@ -19,22 +23,21 @@ func main() {
 	failOnError(err, "Failed to open a channel")
 	defer ch.Close()
 
-	/*
-		args := make(amqp.Table)
-		args["x-dead-letter-exchange"] = ""
-		args["x-dead-letter-routing-key"] = "ANALYSIS_EVENT_DEAD_LETTER"
-		args["x-message-ttl"] = int32(10800000)
-		queue, err := ch.QueueDeclare(
-			"ANALYSIS_EVENT", // name
-			true,             // durable
-			false,            // auto delete
-			false,            // exclusive
-			false,            // no wait
-			args,             // args
-		)
-		failOnError(err, "Failed to declare a Queue")
+	args := make(amqp.Table)
+	args["x-dead-letter-exchange"] = ""
+	args["x-dead-letter-routing-key"] = "ANALYSIS_EVENT_DEAD_LETTER"
+	args["x-message-ttl"] = int32(10800000)
 
-	*/
+	// it is needed just one time
+	queue, err := ch.QueueDeclare(
+		"ANALYSIS_EVENT",
+		true,
+		false,
+		false,
+		false,
+		args,
+	)
+	failOnError(err, "Failed to declare a Queue")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
@@ -47,10 +50,10 @@ func main() {
 	failOnError(err, "Failed to marshal ")
 
 	err = ch.PublishWithContext(ctx,
-		"",               // exchange
-		"ANALYSIS_EVENT", // routing key ANALYSIS_EVENT
-		false,            // mandatory
-		false,            // immediate
+		"", // exchange
+		"ANALYSIS_EVENT",
+		false,
+		false,
 		amqp.Publishing{
 			ContentType: "application/json",
 			Body:        b,
@@ -58,7 +61,7 @@ func main() {
 
 	failOnError(err, "Failed to publish a message")
 
-	//fmt.Println("Queue status:", queue)
+	fmt.Println("Queue status:", queue)
 	log.Printf(" [x] Sent %s", b)
 }
 
