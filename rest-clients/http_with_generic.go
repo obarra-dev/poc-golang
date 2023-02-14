@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func main() {
+func httpWithGeneric() {
 	ctx := context.Background()
 	timeout := 30 * time.Second
 
